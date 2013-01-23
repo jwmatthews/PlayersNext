@@ -18,7 +18,7 @@ class IntegrationSpec extends Specification {
 
         browser.goTo("http://localhost:3333/")
 
-        browser.pageSource must contain("Super Simple Sample")
+        browser.pageSource must contain("PlayersNext! Info")
        
       }
     }

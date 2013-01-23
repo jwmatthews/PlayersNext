@@ -1,4 +1,4 @@
-@(registrationForm: Form[models.Registration])(implicit flash: Flash)
+@(linkForm: Form[models.Link])(implicit flash: Flash)
 
 @import play.api.i18n._
 @import views.html.helper._
@@ -17,22 +17,20 @@
   </div>
 }
 
-@main("Super Simple Sample") {
+@main("PlayersNext! Submit a Link") {
 
-    @form(action = routes.Register.register, 'class -> "form-horizontal") {
+    @form(action = routes.Link.create, 'class -> "form-horizontal") {
 
       <fieldset>
-        <legend>Registration</legend>
+        <legend>Link</legend>
         @* GLOBAL ERROR/FLASH MESSAGE *@
-        @registrationForm.globalError.map { error => 
+        @linkForm.globalError.map { error =>
           <div class='row'>
             <div class="alert alert-error" style="margin-left:30px;margin-top:20px;">@error.message</div>
           </div>
         }
-        @input(registrationForm("username"), "Username")
-        @input(registrationForm("password"), "Password", 'password)
-        @input(registrationForm("confirm"), "Confirm Password", 'password)
-        @input(registrationForm("realName"), "Real Name")
+        @input(linkForm("url"), "url")
+        @input(linkForm("description"), "Description")
       </fieldset>
       <input type="submit" class="btn" value="Register"/>
     }

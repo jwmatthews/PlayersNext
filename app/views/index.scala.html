@@ -1,21 +1,21 @@
-@(registrations: List[Registration])(implicit flash: Flash)
-@main("Super Simple Sample") {
+@(links: List[models.Link])(implicit flash: Flash)
+@main("PlayersNext! Info") {
    @if(flash.data.contains("message")){
      <div class="alert alert-success">@flash.get("message")</div>
    }
-   <a href="@routes.Register.index" class="btn btn-primary">Register</a>
+   <a href="@routes.Link.index" class="btn btn-primary">Submit a New Link</a>
    <table class="table table-bordered">
      <thead>
        <tr>
-         <th>Username</th>
-         <th>Real Name</th>
+         <th>URL</th>
+         <th>Description</th>
        </tr>
      </thead>
      <tbody>
-      @registrations.map { registration =>
+      @links.map { link =>
         <tr>
-          <td>@registration.username</td>
-          <td>@registration.realName</td>
+          <td>@link.url</td>
+          <td>@link.description</td>
         </tr>
       }
     </tbody>

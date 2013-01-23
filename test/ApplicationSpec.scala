@@ -8,13 +8,8 @@ import com.novus.salat._
 import com.novus.salat.global._
 import com.mongodb.casbah.Imports._
 
-import models.Registration
+import models.Link
 
-/**
- * Add your spec here.
- * You can mock out a whole application including requests, plugins etc.
- * For more information, consult the wiki.
- */
 class ApplicationSpec extends Specification {
   
   "Application" should {
@@ -31,15 +26,14 @@ class ApplicationSpec extends Specification {
         
         status(home) must equalTo(OK)
         contentType(home) must beSome.which(_ == "text/html")
-        contentAsString(home) must contain ("Super Simple Sample")
+        contentAsString(home) must contain ("PlayersNext! Info")
       }
     }
 
-    "convert a Registration case class to a DBObject" in {
-      val registration = Registration("usera", "pw", "pw", "Real Name")
-      val dbo = grater[Registration].asDBObject(registration)
+    "convert a Link case class to a DBObject" in {
+      val link = Link("http://example.com", "A description of a link")
+      val dbo = grater[Link].asDBObject(link)
       dbo must not be None
-
     }
   }
 }
