@@ -1,4 +1,27 @@
+*.class
 *.log
-*.pot
-*.pyc
-local_settings.py
+
+# sbt specific
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+project/project
+project/target
+
+# Scala-IDE specific
+.scala_dependencies
+
+logs
+tmp
+.history
+/.idea
+/*.iml
+/out
+/.idea_modules
+/.classpath
+/.project
+/RUNNING_PID
+/.settings
