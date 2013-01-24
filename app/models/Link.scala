@@ -19,4 +19,13 @@ object Links {
   def create(link: Link) {
     links += grater[Link].asDBObject(link)
   }
+
+  def findById(id: String): Option[Link] = {
+    val o : DBObject = MongoDBObject("_id" -> new ObjectId(id))
+    links.findOne(o).map(grater[Link].asObject(_))
+  }
+
+  def delete(link: Link) {
+    links -= grater[Link].asDBObject(link)
+  }
 }

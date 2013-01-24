@@ -6,7 +6,13 @@
 GET     /                       controllers.Application.index
 GET     /link                   controllers.Link.index
 POST    /link                   controllers.Link.create
-PUT     /link                   controllers.Link.update
+
+# REST API
+GET     /api/link               controllers.api.Link.index
+POST    /api/link               controllers.api.Link.create
+GET     /api/link/:id           controllers.api.Link.details(id: String)
+PUT     /api/link/:id           controllers.api.Link.update(id: String)
+DELETE  /api/link/:id           controllers.api.Link.delete(id: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
