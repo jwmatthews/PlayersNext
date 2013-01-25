@@ -1,10 +1,14 @@
 package controllers.api
 
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.Imports.ObjectId
 import play.api.mvc._
-import models._
+import play.api.data.validation.ValidationError
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
 import play.Logger
+import models._
+
 
 object Link extends Controller {
 
@@ -12,13 +16,23 @@ object Link extends Controller {
     def writes(l: models.Link) = Json.toJson(
       Map(
         "url" -> Json.toJson(l.url),
-        "description" -> Json.toJson(l.description)
+        "description" -> Json.toJson(l.description),
+        "id" -> Json.toJson(l.id.toString)
       )
     )
   }
+
+  implicit object ObjectIdReads extends Reads[ObjectId] {
+    def reads(json: JsValue) = json match {
+      case JsString(s) => JsSuccess(new ObjectId(s))
+      case _ => JsError(Seq(JsPath() -> Seq(ValidationError("validate.error.expected.jsstring"))))
+    }
+  }
+
   implicit val linkReads: Reads[models.Link] = (
     (__ \ "url").read[String] and
-      (__ \ "description").read[String]
+      (__ \ "description").read[String] and
+      (__ \ "id").read[ObjectId]
     )(models.Link.apply _)
 
   def index = Action{ implicit request =>

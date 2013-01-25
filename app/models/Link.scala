@@ -8,7 +8,8 @@ import mongoContext._
 
 case class Link(
   url: String,
-  description: String
+  description: String,
+  id: ObjectId = new ObjectId
 )
 
 object Links {

@@ -11,7 +11,9 @@ object Link extends Controller {
     mapping(
       "url" -> nonEmptyText,
       "description" -> nonEmptyText
-    )(models.Link.apply)(models.Link.unapply)
+    )
+      ((url, description) => models.Link(url, description))
+      ((l:models.Link) => Some(l.url, l.description))
   )
 
   def index = Action{ implicit request =>
