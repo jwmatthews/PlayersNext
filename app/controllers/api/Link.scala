@@ -64,6 +64,12 @@ object Link extends Controller {
 
   def update(id: String) = TODO
 
-  def delete(id: String) = TODO
+  def delete(id: String) = Action { request =>
+    Logger.info("delete() invoked with request.body = \n%s\n".format(request.body))
+    Links.findById(id).map { link: models.Link =>
+      Links.delete(link)
+      Ok(Json.toJson(""))
+    }.getOrElse(NotFound)
+  }
 
 }
