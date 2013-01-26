@@ -17,7 +17,7 @@
       // *************************************************************
 
       $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-          options.url = 'http://192.168.1.169:9000/api' + options.url;
+          options.url = 'http://10.0.0.0:9000/api' + options.url;
           options.dataType = 'jsonp';
       });
 
