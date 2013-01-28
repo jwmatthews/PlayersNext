@@ -3,12 +3,35 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js"></script>
+    <!-- TODO: print media type might be inappropriate, ref RWD --> 
+    <link href="css/index.css" media="screen, print" type="text/css" rel="stylesheet"/>
   </head>
   <body>
-    <div id='container' class="container">
-        <h1>Link</h1>
-        <hr />
+    <div id='header'>
+      <div id='header_links'>
+        <ul>
+          <li>My PlayerNext</li>
+          <li>Top</li>
+          <li>Football</li>
+          <li>Soccer</li>
+          <li>Baseball</li>
+          <li>Basketball</li>
+          <li>Hockey</li>
+          <li><b>More>></b></li>
+        </ul>
+      </div>
+    </div>
+    <div id='top_util'>
+      <h1>PlayerNext</h1>
+      <a href='#'>Sign In</a>
+      <a href='#'>Register</a>
+      <hr/>
+    </div>
+    <div id='body_container' class="body_container">
         <div class="page"></div>
+    </div>
+    <div id='bottom_util'>
+      <a>About</a>
     </div>
 
     <script>
@@ -17,10 +40,13 @@
       // *************************************************************
 
       $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-          options.url = 'http://0.0.0.0:9000/api' + options.url;
+          options.url = 'http://192.168.1.169:9000/api' + options.url;
           options.crossDomain = 'true';
       });
 
+      // *************************************************************
+      // View / Controller 
+      // *************************************************************
       var Links = Backbone.Collection.extend({
           url: '/link'
       });
@@ -29,16 +55,24 @@
           el: '.page',
           render: function() {
               var links = new Links();
+              var cxt = this;
               links.fetch({
                   success: function(link) {
                       console.log("sweet sweet ajax success!");
+                      if (link === null) { // TODO: this doesn't seem like a sound check
+                        cxt.$el.html('<h4>There doesn\'t seem to be anything here.</h4>');
+                      } else {
+                        // Populate list here
+                      }
                   }, 
                   dataType: 'jsonp'
               });
-              //this.$el.html('!CONTENT SHOULD SHOW HERE!');
           }
       });
 
+      // *************************************************************
+      // Router 
+      // *************************************************************
       var Router = Backbone.Router.extend({
           routes: {
               '': 'home'
