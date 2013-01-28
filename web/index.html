@@ -18,7 +18,7 @@
 
       $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
           options.url = 'http://0.0.0.0:9000/api' + options.url;
-          options.dataType = 'jsonp';
+          options.crossDomain = 'true';
       });
 
       var Links = Backbone.Collection.extend({
