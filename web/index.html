@@ -36,9 +36,26 @@
 
     <!-- TEMPLATES -->
     <script type="text/template" id="link-list-template">
+      <a href="#/new" class=btn btn-primary>New Link</a>
       <% _.each(links, function(link) { %>
         <a href="<%= link.get('url') %>"><%= link.get('description') %></a>
       <% }); %>
+    </script>
+
+    <script type="text/template" id="edit-link-template">
+      <form class="edit-link-form">
+        <legend><%= link ? 'Update' : 'Create' %> Link</legend>
+        <label>URL</label>
+        <input type='text' name='url' value="<%= link ? link.get('url') : '' %>"/>
+        <label>Description</label>
+        <input type='text' name='description' value="<%= link ? link.get('description') : '' %>"/>
+        <hr />
+        <button type="submit" class="btn"><%= link ? 'Update' : 'Create' %></button>
+        <% if(link) { %>
+          <input type="hidden" name="id" value="<%= link.id %>"/>
+          <button class="btn btn-danger delete">Delete</button>
+        <% }; %>
+      </form>
     </script>
     <!-- END TEMPLATES -->
     <!-- MAIN BACKBONE JS -->
@@ -87,20 +104,45 @@
         }
       });
 
+      var EditLink = Backbone.View.extend({
+        el: '.page',
+        render: function(options) {
+          var cxt = this;
+          if (options.id) {
+            // GET request
+            cxt.link = new Link({id: options.id});
+            cxt.link.fetch({
+              success: function(link) {
+                var template = _.template($('#edit-link-template').html(), {link: link});
+                cxt.$el.html(template);
+              }
+            });
+          } else {
+            var template = _.template($('#edit-link-template').html(), {link: null});
+            this.$el.html(template);
+          }
+        }
+      });
+
       // *************************************************************
       // Router 
       // *************************************************************
       var Router = Backbone.Router.extend({
         routes: {
-            '': 'home'
+            '': 'home',
+            'new': 'editLink',
         }
       });
 
       var linkList = new LinkList();
+      var editLink = new EditLink();
 
       var router = new Router();
       router.on('route:home', function() {
         linkList.render();
+      });
+      router.on('route:editLink', function(id) {
+        editLink.render({id: id})
       });
 
       Backbone.history.start();
