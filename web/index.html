@@ -28,65 +28,84 @@
       <hr/>
     </div>
     <div id='body_container' class="body_container">
-        <div class="page"></div>
+      <a href='http://www.espn.com'>espn</a>
+      <div class="page"></div>
     </div>
     <div id='bottom_util'>
       <a>About</a>
     </div>
 
+    <!-- TEMPLATES -->
+    <script type="text/template" id="link-list-template">
+      <% _.each(links, function(link) { %>
+        <a href="<%= link.get('url') %>"><%= link.get('description') %></a>
+      <% }); %>
+    </script>
+    <!-- END TEMPLATES -->
+    <!-- MAIN BACKBONE JS -->
     <script>
       // *************************************************************
       // Helper Methods
       // *************************************************************
 
       $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-          options.url = 'http://192.168.1.169:9000/api' + options.url;
-          options.crossDomain = 'true';
+        options.url = 'http://192.168.1.169:9000/api' + options.url;
+        options.crossDomain = 'true';
       });
 
       // *************************************************************
       // View / Controller 
       // *************************************************************
+      var Link = Backbone.Model.extend({
+        url: function() {
+          return this.id ? '/link/' + this.id : '/link';
+        }
+      });
       var Links = Backbone.Collection.extend({
-          url: '/link'
+        model: Link,
+        url: '/link'
       });
 
       var LinkList = Backbone.View.extend({
-          el: '.page',
-          render: function() {
-              var links = new Links();
-              var cxt = this;
-              links.fetch({
-                  success: function(link) {
-                      console.log("sweet sweet ajax success!");
-                      if (link === null) { // TODO: this doesn't seem like a sound check
-                        cxt.$el.html('<h4>There doesn\'t seem to be anything here.</h4>');
-                      } else {
-                        // Populate list here
-                      }
-                  }, 
-                  dataType: 'jsonp'
-              });
-          }
+        el: '.page',
+        render: function() {
+          var links = new Links();
+          var cxt = this;
+          links.fetch({
+            success: function(results) {
+              if (results.length <= 0) { 
+                cxt.$el.html('<h4>There doesn\'t seem to be anything here.</h4>');
+              } else {
+                // Populate list here
+                var template = _.template($('#link-list-template').html(), {links: links.models});
+                cxt.$el.html(template);
+              }
+            }, 
+            error: function(results, jqXHR) {
+              console.log(jqXHR.statusText);
+            }
+          });
+        }
       });
 
       // *************************************************************
       // Router 
       // *************************************************************
       var Router = Backbone.Router.extend({
-          routes: {
-              '': 'home'
-          }
+        routes: {
+            '': 'home'
+        }
       });
 
       var linkList = new LinkList();
 
       var router = new Router();
       router.on('route:home', function() {
-          linkList.render();
+        linkList.render();
       });
 
       Backbone.history.start();
     </script>
+    <!-- END MAIN BACKBONE JS -->
   </body>
 </html>
