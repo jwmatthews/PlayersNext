@@ -65,9 +65,25 @@
       // *************************************************************
 
       $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-        options.url = 'http://192.168.1.169:9000/api' + options.url;
+        options.url = 'http://localhost:9000/api' + options.url;
         options.crossDomain = 'true';
       });
+
+      $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+          if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+              o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+          } else {
+            o[this.name] = this.value || '';
+          }
+        });
+        return o;
+      };
 
       // *************************************************************
       // View / Controller 
@@ -121,6 +137,28 @@
             var template = _.template($('#edit-link-template').html(), {link: null});
             this.$el.html(template);
           }
+        },
+        events: {
+          'submit .edit-link-form': 'saveLink',
+          'click .delete': 'deleteLink'
+        },
+        saveLink: function(ev) {
+          var linkDetails = $(ev.currentTarget).serializeObject();
+          var link = new Link();
+          link.save(linkDetails, {
+            success: function(link) {
+              router.navigate('', {trigger: true});
+            }
+          });
+          return false;
+        },
+        deleteLink: function(ev) {
+          this.link.destroy({
+          success: function() {
+            router.navigate('', {trigger: true});
+          }
+        }); 
+        return false;
         }
       });
 
