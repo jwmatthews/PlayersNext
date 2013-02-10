@@ -1,7 +1,7 @@
 package controllers.api
 
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.Imports.ObjectId
+import org.bson.types.ObjectId
 import play.api.mvc._
 import play.api.data.validation.ValidationError
 import play.api.libs.json._
@@ -24,7 +24,11 @@ object Link extends Controller {
 
   implicit object ObjectIdReads extends Reads[ObjectId] {
     def reads(json: JsValue) = json match {
-      case JsString(s) => JsSuccess(new ObjectId(s))
+      case JsString(s) =>
+        if (ObjectId.isValid(s))
+          JsSuccess(new ObjectId(s))
+        else
+          JsError(ValidationError("validate.error.invalid.objectid"))
       case _ => JsError(Seq(JsPath() -> Seq(ValidationError("validate.error.expected.jsstring"))))
     }
   }
