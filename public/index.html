@@ -1,0 +1,110 @@
+<html>
+  <head>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js"></script>
+    <!-- TODO: print media type might be inappropriate, ref RWD --> 
+    <link href="assets/css/index.css" media="screen, print" type="text/css" rel="stylesheet"/>
+  </head>
+  <body>
+    <div id='header'>
+      <div id='header_links'>
+        <ul>
+          <li>My PlayerNext</li>
+          <li>Top</li>
+          <li>Football</li>
+          <li>Soccer</li>
+          <li>Baseball</li>
+          <li>Basketball</li>
+          <li>Hockey</li>
+          <li><b>More>></b></li>
+        </ul>
+      </div>
+    </div>
+    <div id='top_util'>
+      <h1>PlayerNext</h1>
+      <a href='#'>Sign In</a>
+      <a href='#'>Register</a>
+      <hr/>
+    </div>
+    <div id='body_container' class="body_container">
+      <div class="page"></div>
+    </div>
+    <div id='bottom_util'>
+      <a>About</a>
+    </div>
+
+    <!-- TEMPLATES -->
+    <script type="text/template" id="link-list-template">
+      <% _.each(links, function(link) { %>
+        <a href="<%= link.get('url') %>"><%= link.get('description') %></a>
+      <% }); %>
+    </script>
+    <!-- END TEMPLATES -->
+    <!-- MAIN BACKBONE JS -->
+    <script>
+      // *************************************************************
+      // Helper Methods
+      // *************************************************************
+
+      $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+        options.url = '/api' + options.url;
+        options.crossDomain = 'true';
+      });
+
+      // *************************************************************
+      // View / Controller 
+      // *************************************************************
+      var Link = Backbone.Model.extend({
+        url: function() {
+          return this.id ? '/link/' + this.id : '/link';
+        }
+      });
+      var Links = Backbone.Collection.extend({
+        model: Link,
+        url: '/link'
+      });
+
+      var LinkList = Backbone.View.extend({
+        el: '.page',
+        render: function() {
+          var links = new Links();
+          var cxt = this;
+          links.fetch({
+            success: function(results) {
+              if (results.length <= 0) { 
+                cxt.$el.html('<h4>There doesn\'t seem to be anything here.</h4>');
+              } else {
+                // Populate list here
+                var template = _.template($('#link-list-template').html(), {links: links.models});
+                cxt.$el.html(template);
+              }
+            }, 
+            error: function(results, jqXHR) {
+              console.log(jqXHR.statusText);
+            }
+          });
+        }
+      });
+
+      // *************************************************************
+      // Router 
+      // *************************************************************
+      var Router = Backbone.Router.extend({
+        routes: {
+            '': 'home'
+        }
+      });
+
+      var linkList = new LinkList();
+
+      var router = new Router();
+      router.on('route:home', function() {
+        linkList.render();
+      });
+
+      Backbone.history.start();
+    </script>
+    <!-- END MAIN BACKBONE JS -->
+  </body>
+</html>
