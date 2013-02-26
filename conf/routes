@@ -3,7 +3,8 @@
 # ~~~~
 
 # Home page
-GET     /                       controllers.Application.index
+GET     /                       controllers.Landing.index
+GET     /info                   controllers.Application.index
 GET     /link                   controllers.Link.index
 POST    /link                   controllers.Link.create
 

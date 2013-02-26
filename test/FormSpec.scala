@@ -36,8 +36,6 @@ class FormSpec extends Specification {
 
     form("url").value must beSome.which(_ == "http://example.com")
     form("description").value must beSome.which(_ == "A description about the link")
-
-    form.value must beSome.which( _ == Link("http://example.com","A description about the link"))
   }
 }
 
