@@ -9,26 +9,55 @@ import play.api.libs.functional.syntax._
 
 
 case class Link(
+  id: ObjectId = new ObjectId,
   url: String,
+  title: String,
   description: String,
-  id: ObjectId = new ObjectId
+  tags: List[String]
 )
 
+case class Comment(
+  msg: String,
+  id: ObjectId = new ObjectId,
+  parent: ObjectId
+)
+
+
 object Links {
+  implicit object commentWrites extends Writes[models.Comment] {
+    def writes(c: models.Comment) = Json.toJson(
+      Map(
+        "msg" -> Json.toJson(c.msg),
+        "id" -> Json.toJson(c.id.toString),
+        "parent" -> Json.toJson(c.parent.toString)
+      )
+    )
+  }
   implicit object linkWrites extends Writes[models.Link] {
     def writes(l: models.Link) = Json.toJson(
       Map(
+        "id"  -> Json.toJson(l.id.toString),
         "url" -> Json.toJson(l.url),
+        "title" -> Json.toJson(l.title),
         "description" -> Json.toJson(l.description),
-        "id" -> Json.toJson(l.id.toString)
+        "tags" -> Json.toJson(l.tags)
+        //"comments" -> Json.toJson(l.comments)
       )
     )
   }
 
+  implicit val commentReads: Reads[models.Comment] = (
+    (__ \ "msg").read[String] and
+      (__ \ "id").read[ObjectId] and
+      (__ \ "parent").read[ObjectId]
+  )(models.Comment.apply _)
+
   implicit val linkReads: Reads[models.Link] = (
-    (__ \ "url").read[String] and
+    (__ \ "id").read[ObjectId] and
+      (__ \ "url").read[String] and
+      (__ \ "title").read[String] and
       (__ \ "description").read[String] and
-      (__ \ "id").read[ObjectId]
+      (__ \ "tags").read[List[String]]
     )(models.Link.apply _)
 
   val links = MongoConnection()("PlayersNext")("links")
@@ -47,4 +76,22 @@ object Links {
   def delete(link: Link) {
     links -= grater[Link].asDBObject(link)
   }
+
+  def update(link: Link) {
+    val q: DBObject = MongoDBObject("_id" -> link.id)
+    links.update(q, grater[Link].asDBObject(link))
+  }
+
+  def addTag(id: String, tag: String) = {
+    links.update(MongoDBObject("_id" -> id), $addToSet("tags" -> tag))
+  }
+
+  def deleteTag(id: String, tag: String) = {
+    links.update(MongoDBObject("_id" -> id), $pull("tags" -> tag))
+  }
+
+  def addComment = ()
+  def deleteComment = ()
+  def updateComment = ()
+
 }

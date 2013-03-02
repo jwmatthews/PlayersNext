@@ -8,14 +8,18 @@
      <thead>
        <tr>
          <th>URL</th>
+         <th>Title</th>
          <th>Description</th>
+         <th>Tags</th>
        </tr>
      </thead>
      <tbody>
       @links.map { link =>
         <tr>
           <td>@link.url</td>
+          <td>@link.title</td>
           <td>@link.description</td>
+          <td>@link.tags</td>
         </tr>
       }
     </tbody>

@@ -5,9 +5,9 @@
 
 @input(field: Field, label: String, fieldType: Symbol = 'text) = {
   <div class="control-group @if(field.hasErrors) {error}">
-    <label class="control-label" for="@field.id">@label</label>
+    <label class="control-label" for="@field.name">@label</label>
     <div class="controls">
-      <input type="@fieldType.name" value="@field.value" name="@field.id" />
+      <input type="@fieldType.name" value="@field.value" name="@field.name" />
       @if(field.hasErrors){
         <span class="help-inline">
           @Messages(field.error.head.message)
@@ -30,7 +30,11 @@
           </div>
         }
         @input(linkForm("url"), "url")
+        @input(linkForm("title"), "title")
         @input(linkForm("description"), "Description")
+        @repeat(linkForm("tags"), min = 3) { tagField =>
+          @input(tagField, "Tag")
+        }
       </fieldset>
       <input type="submit" class="btn" value="Register"/>
     }

@@ -6,6 +6,8 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.0.0/jquery.qtip.min.js"></script>
+
     <!-- TODO: print media type might be inappropriate, ref RWD -->
 
     <link rel="stylesheet" media="screen" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/css/bootstrap.min.css">
@@ -75,7 +77,9 @@
         <% _.each(links, function(link) { %>
             <div class="row-fluid">
                 <div class="span12">
-                    <h2><%= link.get('url') %></h2>
+                    <h2>
+                        <div class="link_preview"><%= link.get('url') %> </div>
+                    </h2>
                     <p><%= link.get('description') %></p>
                     <p><a class="btn" href="<%= link.get('url') %>">View &raquo;</a></p>
                 </div><!--/span-->
@@ -148,6 +152,13 @@
       });
 
       Backbone.history.start();
+
+     // qTip Web Preview
+      $('link_preview').qtip({
+          content: 'This is an active list element',
+          show: 'mouseover',
+          hide: 'mouseout'
+      })
     </script>
     <!-- END MAIN BACKBONE JS -->
   </body>
