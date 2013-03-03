@@ -20,7 +20,7 @@ object LinkTag extends Controller {
     }.getOrElse(NotFound)
   }
 
-  def add(id: String, tag: String) = Action(parse.json) { request =>
+  def add(id: String, tag: String) = Action { request =>
     Links.addTag(id, tag)
     Ok(Json.toJson(true))
   }

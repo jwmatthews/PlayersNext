@@ -83,12 +83,12 @@ object Links {
   }
 
   def addTag(id: String, tag: String) = {
-    links.update(MongoDBObject("_id" -> id), $addToSet("tags" -> tag))
+    links.update(MongoDBObject("_id" -> new ObjectId(id)), $addToSet("tags" -> tag))
     Tag.increment(tag)
   }
 
   def deleteTag(id: String, tag: String) = {
-    links.update(MongoDBObject("_id" -> id), $pull("tags" -> tag))
+    links.update(MongoDBObject("_id" -> new ObjectId(id)), $pull("tags" -> tag))
     Tag.decrement(tag)
   }
 
