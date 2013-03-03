@@ -20,10 +20,10 @@ PUT     /api/link/:id/tag/:tag  controllers.api.LinkTag.add(id:String, tag: Stri
 DELETE  /api/link/:id/tag/:tag  controllers.api.LinkTag.delete(id: String, tag: String)
 
 
-GET     /api/tag                controllers.api.Tag.all
-POST    /api/tag                controllers.api.Tag.create
-PUT     /api/tag/:value         controllers.api.Tag.update(value: String)
-DELETE  /api/tag/:value         controllers.api.Tag.details(value: String)
+GET     /api/tags                controllers.api.Tag.all
+POST    /api/tags/:tag         controllers.api.Tag.create(tag: String)
+PUT     /api/tags/:tag         controllers.api.Tag.update(tag: String)
+DELETE  /api/tags/:tag         controllers.api.Tag.details(tag: String)
 
 
 # Map static resources from the /public folder to the /assets URL path

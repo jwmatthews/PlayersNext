@@ -17,7 +17,7 @@ import play.api.libs.functional.syntax._
 
 case class Tag (
   id: ObjectId = new ObjectId(),
-  value: String,
+  tag: String,
   refs: Int = 0
 )
 
@@ -26,7 +26,7 @@ object Tags {
     def writes(t: models.Tag) = Json.toJson(
       Map(
         "id" -> Json.toJson(t.id.toString),
-        "value" -> Json.toJson(t.value),
+        "tag" -> Json.toJson(t.tag),
         "refs" -> Json.toJson(t.refs.toString)
       )
     )
@@ -34,13 +34,19 @@ object Tags {
 
   implicit val tagReads: Reads[models.Tag] = (
     (__ \ "id").read[ObjectId] and
-      (__ \ "value").read[String] and
+      (__ \ "tag").read[String] and
       (__ \ "refs").read[Int]
-    )(models.Tag.apply _)
+    )(Tag.apply _)
 
   val tags = MongoConnection()("PlayersNext")("tags")
 
   def all = tags.map(grater[Tag].asObject(_)).toList
+
+  def ensureIndexes() = {
+    tags.ensureIndex(
+      MongoDBObject("tag" -> 1), "tag_index", true
+    )
+  }
 
   def create(tag: Tag) {
     tags += grater[Tag].asDBObject(tag)
@@ -52,7 +58,7 @@ object Tags {
   }
 
   def findByValue(value: String): Option[Tag] = {
-    val o: DBObject = MongoDBObject("value" -> value)
+    val o: DBObject = MongoDBObject("tag" -> value)
     tags.findOne(o).map(grater[Tag].asObject(_))
   }
 
@@ -65,17 +71,17 @@ object Tags {
     tags.update(q, grater[Tag].asDBObject(tag))
   }
 
-  def increment(value: String) = {
+  def increment(tag: String) = {
     // TODO:
     // Would prefer an atomic operation for an upsert that creates or increments
-    findByValue(value) match {
+    findByValue(tag) match {
       case Some(_) => ()
-      case _ => create(Tag(value=value, refs=0))
+      case _ => create(Tag(tag=tag, refs=0))
     }
-    tags.update(MongoDBObject("value" -> value), $inc("refs" -> 1))
+    tags.update(MongoDBObject("tag" -> tag), $inc("refs" -> 1))
   }
 
-  def decrement(value: String) = {
-    tags.update(MongoDBObject("value" -> value), $inc("refs" -> -1))
+  def decrement(tag: String) = {
+    tags.update(MongoDBObject("tag" -> tag), $inc("refs" -> -1))
   }
 }

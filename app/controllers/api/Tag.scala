@@ -9,12 +9,13 @@ import models.Tags.tagReads
 object Tag extends Controller {
   def all = Action{ implicit request =>
     val tags = Tags.all
-    Ok(Json.toJson(tags))
+    val result = Map("tags" -> tags)
+    Ok(Json.toJson(result))
   }
 
-  def create() = Action(parse.json) { request =>
-    val tag = request.body.as[Tag]
+  def create(value: String) = Action { request =>
     try {
+      val tag = models.Tag(tag=value)
       Tags.create(tag)
       Ok(Json.toJson(true))
     }

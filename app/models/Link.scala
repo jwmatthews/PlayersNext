@@ -64,8 +64,15 @@ object Links {
 
   def all = links.map(grater[Link].asObject(_)).toList
 
+  def ensureIndexes() = {
+    links.ensureIndex(
+      MongoDBObject("url" -> 1), "url_index", true
+    )
+  }
+
   def create(link: Link) {
     links += grater[Link].asDBObject(link)
+    link.tags.map(t => Tags.increment(t))
   }
 
   def findById(id: String): Option[Link] = {
@@ -75,6 +82,7 @@ object Links {
 
   def delete(link: Link) {
     links -= grater[Link].asDBObject(link)
+    link.tags.map(t => Tags.decrement(t))
   }
 
   def update(link: Link) {
