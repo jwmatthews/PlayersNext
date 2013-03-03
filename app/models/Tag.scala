@@ -21,7 +21,7 @@ case class Tag (
   refs: Int = 0
 )
 
-object Tag {
+object Tags {
   implicit object tagWrites extends Writes[models.Tag] {
     def writes(t: models.Tag) = Json.toJson(
       Map(
@@ -52,7 +52,7 @@ object Tag {
   }
 
   def findByValue(value: String): Option[Tag] = {
-    val o: DBObject = MongoDBObject("_id" -> new ObjectId(value))
+    val o: DBObject = MongoDBObject("value" -> value)
     tags.findOne(o).map(grater[Tag].asObject(_))
   }
 
@@ -66,6 +66,12 @@ object Tag {
   }
 
   def increment(value: String) = {
+    // TODO:
+    // Would prefer an atomic operation for an upsert that creates or increments
+    findByValue(value) match {
+      case Some(_) => ()
+      case _ => create(Tag(value=value, refs=0))
+    }
     tags.update(MongoDBObject("value" -> value), $inc("refs" -> 1))
   }
 
