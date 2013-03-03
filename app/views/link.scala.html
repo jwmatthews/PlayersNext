@@ -32,9 +32,22 @@
         @input(linkForm("url"), "url")
         @input(linkForm("title"), "title")
         @input(linkForm("description"), "Description")
+        <!-- Non-Ajax approach of listing 3 tag fields for input
         @repeat(linkForm("tags"), min = 3) { tagField =>
           @input(tagField, "Tag")
         }
+        -->
+        <!--
+          Add javascript controls that will parse the text entered into:
+           'tags_input' and will construct a name="tags[i]" for each tag entered
+           <input type="text" value="" name="tags[i]" />
+        -->
+        <div class="control-group">
+            <label class="control-label" for="tags[0]">Tags</label>
+            <div class="controls">
+                <input type="text" value="" name="tags[0]" />
+            </div>
+       </div>
       </fieldset>
       <input type="submit" class="btn" value="Register"/>
     }

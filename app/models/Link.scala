@@ -9,7 +9,7 @@ import play.api.libs.functional.syntax._
 
 
 case class Link(
-  id: ObjectId = new ObjectId,
+  id: Option[ObjectId] = Some(new ObjectId),
   url: String,
   title: String,
   description: String,
@@ -36,7 +36,7 @@ object Links {
   implicit object linkWrites extends Writes[models.Link] {
     def writes(l: models.Link) = Json.toJson(
       Map(
-        "id"  -> Json.toJson(l.id.toString),
+        "id"  -> Json.toJson(l.id.getOrElse("").toString),
         "url" -> Json.toJson(l.url),
         "title" -> Json.toJson(l.title),
         "description" -> Json.toJson(l.description),
@@ -53,7 +53,7 @@ object Links {
   )(models.Comment.apply _)
 
   implicit val linkReads: Reads[models.Link] = (
-    (__ \ "id").read[ObjectId] and
+    (__ \ "id").readNullable[ObjectId] and
       (__ \ "url").read[String] and
       (__ \ "title").read[String] and
       (__ \ "description").read[String] and
@@ -84,10 +84,12 @@ object Links {
 
   def addTag(id: String, tag: String) = {
     links.update(MongoDBObject("_id" -> id), $addToSet("tags" -> tag))
+    Tag.increment(tag)
   }
 
   def deleteTag(id: String, tag: String) = {
     links.update(MongoDBObject("_id" -> id), $pull("tags" -> tag))
+    Tag.decrement(tag)
   }
 
   def addComment = ()
