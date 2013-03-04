@@ -5,9 +5,9 @@
 
 @input(field: Field, label: String, fieldType: Symbol = 'text) = {
   <div class="control-group @if(field.hasErrors) {error}">
-    <label class="control-label" for="@field.id">@label</label>
+    <label class="control-label" for="@field.name">@label</label>
     <div class="controls">
-      <input type="@fieldType.name" value="@field.value" name="@field.id" />
+      <input type="@fieldType.name" value="@field.value" name="@field.name" />
       @if(field.hasErrors){
         <span class="help-inline">
           @Messages(field.error.head.message)
@@ -16,8 +16,7 @@
     </div>
   </div>
 }
-
-@main("PlayersNext! Submit a Link") {
+@main("PlayersNext! Submit a>nk") {
 
     @form(action = routes.Link.create, 'class -> "form-horizontal") {
 
@@ -30,7 +29,18 @@
           </div>
         }
         @input(linkForm("url"), "url")
+        @input(linkForm("title"), "title")
         @input(linkForm("description"), "Description")
+        <div class="control-group">
+            <label class="control-label" for="tags">Tags</label>
+            <div class="controls">
+                <input type="text" autocomplete="off" data-items="6" data-provide="typeahead"
+                    name="tagsjax" placeholder="Tags" style="width:9em;"
+                    class="input-medium tagManager linksTagManager" data-original-title=""/>
+                <p class="help-block">Type some <a target="_blank" href="http://en.wikipedia.org/wiki/Tag_(metadata)">tags</a> in the input field, separate them with a comma (or tab).</p>
+                <!-- Javascript will create a hidden input field to hold the tags -->
+            </div>
+       </div>
       </fieldset>
       <input type="submit" class="btn" value="Register"/>
     }

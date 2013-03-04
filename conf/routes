@@ -15,5 +15,16 @@ GET     /api/link/:id           controllers.api.Link.details(id: String)
 PUT     /api/link/:id           controllers.api.Link.update(id: String)
 DELETE  /api/link/:id           controllers.api.Link.delete(id: String)
 
+GET     /api/link/:id/tag       controllers.api.LinkTag.all(id: String)
+PUT     /api/link/:id/tag/:tag  controllers.api.LinkTag.add(id:String, tag: String)
+DELETE  /api/link/:id/tag/:tag  controllers.api.LinkTag.delete(id: String, tag: String)
+
+
+GET     /api/tags                controllers.api.Tag.all
+POST    /api/tags/:tag         controllers.api.Tag.create(tag: String)
+PUT     /api/tags/:tag         controllers.api.Tag.update(tag: String)
+DELETE  /api/tags/:tag         controllers.api.Tag.details(tag: String)
+
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

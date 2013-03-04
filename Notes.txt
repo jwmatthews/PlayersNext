@@ -1,0 +1,6 @@
+Libraries we are using or evaluating
+
+JavaScript Libraries:
+- Tag library that works with twitter bootstrap
+  - http://welldonethings.com/tags/manager
+

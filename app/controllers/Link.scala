@@ -7,13 +7,25 @@ import models._
 
 
 object Link extends Controller {
+
+  def tagsToForm(tags: List[String]): String = {
+    tags.foldLeft("")( (a, b) => a + b + ", ")
+  }
+
+  def tagsFromForm(tags: String): List[String] = {
+    tags.split(",").toList.map(_.trim).filter(!_.isEmpty)
+  }
+
   def linkForm = Form(
     mapping(
       "url" -> nonEmptyText,
-      "description" -> nonEmptyText
+      "title" -> nonEmptyText,
+      "description" -> nonEmptyText,
+      "tags" -> text
     )
-      ((url, description) => models.Link(url, description))
-      ((l:models.Link) => Some(l.url, l.description))
+      ((url, title, description, tags) =>
+        models.Link(url=url, title=title, description=description, tags=tagsFromForm(tags)))
+      ((l:models.Link) => Some(l.url, l.title, l.description, tagsToForm(l.tags)))
   )
 
   def index = Action{ implicit request =>
