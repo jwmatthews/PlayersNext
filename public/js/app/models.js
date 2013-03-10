@@ -8,7 +8,7 @@ PN.Link = DS.Model.extend({
 
 PN.Tag = DS.Model.extend({
     id: DS.attr('string'),
-    value: DS.attr('string'),
+    tag: DS.attr('string'),
     refs: DS.attr('int'),
 
 })
