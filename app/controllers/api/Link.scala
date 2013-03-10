@@ -18,7 +18,8 @@ object Link extends Controller {
   def index = Action{ implicit request =>
     Logger.info("index() invoked with request.body = \n%s\n".format(request.body))
     val links = Links.all
-    Ok(Json.toJson(links))
+    val data = Map("links" -> links)
+    Ok(Json.toJson(data))
   }
 
   def create() = Action(parse.json) { request =>
