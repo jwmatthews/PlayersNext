@@ -1,7 +1,7 @@
 ADDR="127.0.0.1"
 PORT=9000
 
-DATA=`curl -s ${ADDR}:${PORT}/api/link`
+DATA=`curl -s ${ADDR}:${PORT}/api/links`
 if [ $? -eq 0 ]
 then
   echo ${DATA} | python -mjson.tool

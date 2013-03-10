@@ -5,19 +5,19 @@
 # Home page
 GET     /                       controllers.Landing.index
 GET     /info                   controllers.Application.index
-GET     /link                   controllers.Link.index
-POST    /link                   controllers.Link.create
+GET     /links                   controllers.Link.index
+POST    /links                   controllers.Link.create
 
 # REST API
-GET     /api/link               controllers.api.Link.index
-POST    /api/link               controllers.api.Link.create
-GET     /api/link/:id           controllers.api.Link.details(id: String)
-PUT     /api/link/:id           controllers.api.Link.update(id: String)
-DELETE  /api/link/:id           controllers.api.Link.delete(id: String)
+GET     /api/links               controllers.api.Link.index
+POST    /api/links               controllers.api.Link.create
+GET     /api/links/:id           controllers.api.Link.details(id: String)
+PUT     /api/links/:id           controllers.api.Link.update(id: String)
+DELETE  /api/links/:id           controllers.api.Link.delete(id: String)
 
-GET     /api/link/:id/tag       controllers.api.LinkTag.all(id: String)
-PUT     /api/link/:id/tag/:tag  controllers.api.LinkTag.add(id:String, tag: String)
-DELETE  /api/link/:id/tag/:tag  controllers.api.LinkTag.delete(id: String, tag: String)
+GET     /api/links/:id/tag       controllers.api.LinkTag.all(id: String)
+PUT     /api/links/:id/tag/:tag  controllers.api.LinkTag.add(id:String, tag: String)
+DELETE  /api/links/:id/tag/:tag  controllers.api.LinkTag.delete(id: String, tag: String)
 
 
 GET     /api/tags                controllers.api.Tag.all
