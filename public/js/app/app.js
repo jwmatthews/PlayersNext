@@ -6,8 +6,21 @@ var PN = Ember.Application.create({
 });
 
 PN.Store = DS.Store.extend({
-    adapter:  DS.RESTAdapter.create({
+    adapter:  DS.RESTAdapter.extend({
     	namespace: 'api'
     }),
     revision: 12
+});
+
+DS.RESTAdapter.registerTransform('array', {
+  serialize: function(value) {
+    if (Em.typeOf(value) === 'array') {
+      return value;
+    } else {
+      return [];
+    }
+  },
+  deserialize: function(value) {
+    return value;
+  }
 });
