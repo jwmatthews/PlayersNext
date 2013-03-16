@@ -8,5 +8,5 @@ LINK_ID=$1
 TAG=$2
 
 echo "Curl Command:"
-echo curl -s -X PUT -H "Accept: application/json" ${ADDR}:${PORT}/api/link/${LINK_ID}/tag/${TAG}
-curl -s -X DELETE -H "Accept: application/json" ${ADDR}:${PORT}/api/link/${LINK_ID}/tag/${TAG}
+echo curl -s -X PUT -H "Accept: application/json" ${ADDR}:${PORT}/api/links/${LINK_ID}/tag/${TAG}
+curl -s -X DELETE -H "Accept: application/json" ${ADDR}:${PORT}/api/links/${LINK_ID}/tag/${TAG}

@@ -6,7 +6,7 @@ if [ $# -lt 1 ]; then
     exit
 fi
 LINK_UUID=$1
-DATA=`curl -s ${ADDR}:${PORT}/api/link/$1`
+DATA=`curl -s ${ADDR}:${PORT}/api/links/$1`
 if [ $? -eq 0 ]
 then
   echo ${DATA} | python -mjson.tool

@@ -3,19 +3,18 @@ PN.Router = Ember.Router.extend({
 });
 
 PN.Router.map(function() {
-    this.route("index", {path: "/"});
+    this.route("landing", {path: "/"});
     this.resource("link", {path: "/link"}, function() {
         this.route("index", {path: '/link'});
         this.route("detail", {path: '/link/:link_id'});
     });
 });
 
-PN.IndexRoute = Ember.Route.extend({
-    redirect: function() {
-        console.log('indexRoute');
-        this.transitionTo('link.index');
+PN.LandingRoute = Ember.Route.extend({
+    renderTemplate: function() {
+        this.render('landing')
     }
-});
+})
 
 PN.LinkIndexRoute = Ember.Route.extend({
     model: function() {

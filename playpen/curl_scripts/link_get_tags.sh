@@ -7,5 +7,5 @@ PORT=9000
 LINK_ID=$1
 
 echo "Curl Command:"
-echo curl -s -X GET -H "Accept: application/json" ${ADDR}:${PORT}/api/link/${LINK_ID}/tag
-curl -s -X GET -H "Accept: application/json" ${ADDR}:${PORT}/api/link/${LINK_ID}/tag
+echo curl -s -X GET -H "Accept: application/json" ${ADDR}:${PORT}/api/links/${LINK_ID}/tag
+curl -s -X GET -H "Accept: application/json" ${ADDR}:${PORT}/api/links/${LINK_ID}/tag
