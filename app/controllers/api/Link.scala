@@ -24,14 +24,19 @@ object Link extends Controller {
 
   def create() = Action(parse.json) { request =>
     Logger.info("create() invoked with request.body = \n%s\n".format(request.body))
-    val link = request.body.as[models.Link]
-    try {
-      Links.create(link)
-      Ok(Json.toJson(true))
-    }
-    catch {
-      case e:IllegalArgumentException => BadRequest("Unable to create Link with data: " + request.body)
-    }
+    val customReads: Reads[models.Link] =
+      (JsPath \ "link").read[models.Link]
+    customReads.reads(request.body).fold(
+      valid = { link =>
+        Links.create(link)
+        Ok(Json.toJson(true))
+      },
+      invalid = { errors =>
+        BadRequest("Unable to create Link with data: " + request.body +
+          ", yielded errors" + errors)
+
+      }
+    )
   }
 
   def details(id: String) = Action { request =>
