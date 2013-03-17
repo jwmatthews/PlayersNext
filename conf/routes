@@ -4,9 +4,6 @@
 
 # Home page
 GET     /                       controllers.Landing.index
-GET     /info                   controllers.Application.index
-GET     /links                   controllers.Link.index
-POST    /links                   controllers.Link.create
 
 # REST API
 GET     /api/links               controllers.api.Link.index
