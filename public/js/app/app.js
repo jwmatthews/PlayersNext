@@ -5,11 +5,22 @@ var PN = Ember.Application.create({
     LOG_TRANSITIONS: true
 });
 
-PN.store = DS.Store.create({
-    adapter:  DS.RESTAdapter.create(),
+PN.Store = DS.Store.extend({
+    adapter:  DS.RESTAdapter.extend({
+    	namespace: 'api'
+    }),
     revision: 12
 });
 
-PN.store.adapter.reopen({
-  namespace: 'api'
+DS.RESTAdapter.registerTransform('array', {
+  serialize: function(value) {
+    if (Em.typeOf(value) === 'array') {
+      return value;
+    } else {
+      return [];
+    }
+  },
+  deserialize: function(value) {
+    return value;
+  }
 });
