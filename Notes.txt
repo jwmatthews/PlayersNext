@@ -4,3 +4,15 @@ JavaScript Libraries:
 - Tag library that works with twitter bootstrap
   - http://welldonethings.com/tags/manager
 
+
+If you use Emacs + Tramp + zsh and having trouble with connections:
+try adding to this to your ~/.zshrc
+if [[ "$TERM" == "dumb" ]]
+then
+  unsetopt zle
+  unsetopt prompt_cr
+  unsetopt prompt_subst
+  unfunction precmd
+  unfunction preexec
+  PS1='$ '
+fi
