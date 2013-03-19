@@ -2,7 +2,7 @@ Ember.TEMPLATES['link/index'] = Ember.Handlebars.compile('' +
     '{{view Ember.TextField placeholder="url" valueBinding="view.url"}}' +
     '{{view Ember.TextField placeholder="title" valueBinding="view.title"}}' +
     '{{view Ember.TextField placeholder="description" valueBinding="view.description"}}' +
-    '{{view Ember.TextField placeholder="tags" valueBinding="view.tags"}}' +
+    '{{view PN.TagField placeholder="tags" valueBinding="view.tags" name="tagsjax"}}' +
     '<a {{action addLink model target="view" href=true}}>Submit</a>' +
 
     '{{#each content}}' +

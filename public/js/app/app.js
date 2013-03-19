@@ -26,3 +26,20 @@ DS.RESTAdapter.registerTransform('array', {
     return value;
   }
 });
+
+PN.TagField = Ember.TextField.extend({
+  classNames: ['linksTagManager'],
+  attributeBindings: ['name'],
+  didInsertElement: function() {
+    this.$().tagsManager({
+      preventSubmitOnEnter: true,
+      typeahead: true,
+      typeaheadAjaxSource: '/api/tags',
+      typeaheadAjaxPolling: true,
+      //AjaxPush: '/api/tags',
+      blinkBGColor_1: '#FFFF9C',
+      blinkBGColor_2: '#CDE69C',
+      hiddenTagListName: 'tags'
+    });
+  }
+});
