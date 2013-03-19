@@ -16,6 +16,8 @@ DS.RESTAdapter.registerTransform('array', {
   serialize: function(value) {
     if (Em.typeOf(value) === 'array') {
       return value;
+    } else if (Em.typeOf(value) === 'string') {
+      return (value.split(','));
     } else {
       return [];
     }
