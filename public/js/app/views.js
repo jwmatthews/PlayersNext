@@ -5,18 +5,19 @@ PN.ApplicationView = Ember.View.extend({
 PN.LinkIndexView = Ember.View.extend({
   elementId: 'linksArea',
   addLink: function(event) {
+    // =====================================================================
     // this is really hacky!
     // there has to be a better/cleaner way to get the autocompleted tag and 
     // append the information to this.tag
-
   	var completed_tags = '';
   	this.$('.myTag').each(function() {
   		completed_tags += $(this).children('span').text().trim() + ',';
   	});
-
+    
+    // TODO: Should really take care of the case if this.tags is empty
     this.set('tags', completed_tags + this.tags.trim());
     // end hacky shit
-
+    // =====================================================================
     if (this.formIsValid()) {
       var link = this.buildLinkFromInputs(event);
       this.get('controller').addLink(link);
@@ -55,6 +56,7 @@ PN.LinkIndexView = Ember.View.extend({
   	this.set('title', '');
   	this.set('description', '');
   	this.set('tags', '');
+    this.$('.myTag').remove();
  	}
 });
 
