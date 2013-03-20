@@ -3,29 +3,41 @@ PN.ApplicationView = Ember.View.extend({
 });
 
 PN.LinkIndexView = Ember.View.extend({
-    elementId: 'linksArea',
-    addLink: function(event) {
-	    if (this.formIsValid()) {
-	      var link = this.buildLinkFromInputs(event);
-	      this.get('controller').addLink(link);
-	      this.resetForm();
-	    } else {
-	    	alert("Invalid data");
-	    	this.resetForm();
-	    }
-  	},
-  	buildLinkFromInputs: function(session) {
-	    var url = this.get('url');
-	    var title = this.get('title');
-	    var description = this.get('description');
-	    var tags = this.get('tags');
+  elementId: 'linksArea',
+  addLink: function(event) {
+    // this is really hacky!
+    // there has to be a better/cleaner way to get the autocompleted tag and 
+    // append the information to this.tag
 
-	    return PN.Link.createRecord(
-	    	{ 	url: url,
-	      		title: title,
-	      		description: description,
-	      		tags: tags
-	    });
+  	var completed_tags = '';
+  	this.$('.myTag').each(function() {
+  		completed_tags += $(this).children('span').text().trim() + ',';
+  	});
+
+    this.set('tags', completed_tags + this.tags.trim());
+    // end hacky shit
+
+    if (this.formIsValid()) {
+      var link = this.buildLinkFromInputs(event);
+      this.get('controller').addLink(link);
+      this.resetForm();
+    } else {
+    	console.log("Invalid data");
+    	this.resetForm();
+    }
+	},
+	buildLinkFromInputs: function(session) {
+    var url = this.get('url');
+    var title = this.get('title');
+    var description = this.get('description');
+    var tags = this.get('tags');
+
+    return PN.Link.createRecord(
+    	{ 	url: url,
+      		title: title,
+      		description: description,
+      		tags: tags
+    });
  	},
  	formIsValid: function() {
 		var url = this.get('url');
@@ -37,13 +49,12 @@ PN.LinkIndexView = Ember.View.extend({
 	  		return false;
 		}
 		return true;
-  	},
-  	resetForm: function() {
-    	this.set('url', '');
-    	this.set('title', '');
-    	this.set('description', '');
-    	this.set('tags', '');
-
+  },
+	resetForm: function() {
+  	this.set('url', '');
+  	this.set('title', '');
+  	this.set('description', '');
+  	this.set('tags', '');
  	}
 });
 
