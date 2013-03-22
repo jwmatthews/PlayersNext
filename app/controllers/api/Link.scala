@@ -42,7 +42,7 @@ object Link extends Controller {
   def details(id: String) = Action { request =>
     Logger.info("details() invoked with request.body = \n%s\n".format(request.body))
     Links.findById(id).map { link: models.Link =>
-      Ok(Json.toJson(link))
+      Ok(Json.toJson(Map("link" -> link)))
     }.getOrElse(NotFound)
   }
 
