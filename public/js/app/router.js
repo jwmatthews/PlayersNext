@@ -5,8 +5,8 @@ PN.Router = Ember.Router.extend({
 PN.Router.map(function() {
     this.route("landing", {path: "/"});
     this.resource("link", {path: "/link"}, function() {
-        this.route("index", {path: '/link'});
-        this.route("detail", {path: '/link/:link_id'});
+        this.route("index", {path: '/'});
+        this.route("detail", {path: '/:link_id'});
     });
 });
 
