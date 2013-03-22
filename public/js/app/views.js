@@ -60,3 +60,9 @@ PN.LinkIndexView = Ember.View.extend({
  	}
 });
 
+PN.LinkDetailView = Ember.View.extend({
+  elementId: 'linkDetail'
+  /** Need to add the below code to be run after the template has been drawn
+  $('linkDetail').embedly({key: "1f920f0a1366447ca03290b7b96670cb"});
+  **/
+});

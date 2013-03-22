@@ -67,7 +67,7 @@ Ember.TEMPLATES['link/index'] = Ember.Handlebars.compile('' +
 );
 
 Ember.TEMPLATES['link/detail'] = Ember.Handlebars.compile('' +
-    '<div>{{url}}</div>' +
+    '<a {{bindAttr href="url" }}>{{url}} </a>' +
     '<br />{{title}}' + 
     '<br />{{description}}' + 
     '<br />{{tags}}' + 
