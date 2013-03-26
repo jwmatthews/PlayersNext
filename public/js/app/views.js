@@ -57,12 +57,15 @@ PN.LinkIndexView = Ember.View.extend({
   	this.set('description', '');
   	this.set('tags', '');
     this.$('.myTag').remove();
- 	}
+ 	},
+ 	didInsertElement: function() {
+  		this.$().embedly({key: "1f920f0a1366447ca03290b7b96670cb"});
+  	}
 });
 
 PN.LinkDetailView = Ember.View.extend({
-  elementId: 'linkDetail'
-  /** Need to add the below code to be run after the template has been drawn
-  $('linkDetail').embedly({key: "1f920f0a1366447ca03290b7b96670cb"});
-  **/
+  elementId: 'linkDetail',
+  didInsertElement: function() {
+  	this.$().embedly({key: "1f920f0a1366447ca03290b7b96670cb"});
+  }
 });

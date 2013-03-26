@@ -60,6 +60,7 @@ Ember.TEMPLATES['link/index'] = Ember.Handlebars.compile('' +
 
     '{{#each content}}' +
         '<br />{{#linkTo "link.detail" this}}{{title}}{{/linkTo}}' +
+        '<a {{bindAttr href="url" }}>{{url}} </a>' +
         '<br />{{description}}' +
         '<br />{{tags}}' +
         '<hr/>' +
