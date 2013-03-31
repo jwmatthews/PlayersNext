@@ -1,12 +1,14 @@
 package controllers.api
 
-//import com.mongodb.casbah.Imports._
-//import org.bson.types.ObjectId
+
 import play.api.mvc._
-//import play.api.data.validation.ValidationError
 import play.api.libs.json._
-//import play.api.libs.functional.syntax._
 import play.Logger
+
+//TODO:  Revisit if we should create a new execution context for these lookups
+import play.api.libs.concurrent.Execution.Implicits._
+
+import helper.Embedly
 import models._
 import models.Links.linkWrites
 import models.Links.linkReads
@@ -56,4 +58,26 @@ object Link extends Controller {
     }.getOrElse(NotFound)
   }
 
+  def metadata(url: String) = Action {
+    Async {
+      Logger.info("Embedly lookup for: '" + url + "'")
+      val responsePromise = Embedly.lookup(url)
+      responsePromise.map { response =>
+        if (response.status == 200) {
+          Embedly.extractReads.reads(Json.parse(response.body)).fold(
+            valid = { metadata =>
+              Ok(Json.toJson(metadata))
+            },
+            invalid = { errors =>
+              BadRequest("Unable to decode JSON data for embedly extract query on: '" + url +
+                "' received errors: " + errors)
+            }
+          )
+        }
+        else {
+          BadRequest("Bad answer from embed.ly:" + response.statusText)
+        }
+      }
+    }
+  }
 }

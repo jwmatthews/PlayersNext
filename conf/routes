@@ -3,24 +3,29 @@
 # ~~~~
 
 # Home page
-GET     /                       controllers.Landing.index
-
-# REST API
-GET     /api/links               controllers.api.Link.index
-POST    /api/links               controllers.api.Link.create
-GET     /api/links/:id           controllers.api.Link.details(id: String)
-PUT     /api/links/:id           controllers.api.Link.update(id: String)
-DELETE  /api/links/:id           controllers.api.Link.delete(id: String)
-
-GET     /api/links/:id/tag       controllers.api.LinkTag.all(id: String)
-PUT     /api/links/:id/tag/:tag  controllers.api.LinkTag.add(id:String, tag: String)
-DELETE  /api/links/:id/tag/:tag  controllers.api.LinkTag.delete(id: String, tag: String)
+GET     /                           controllers.Landing.index
 
 
-GET     /api/tags                controllers.api.Tag.all
-POST    /api/tags/:tag         controllers.api.Tag.create(tag: String)
-PUT     /api/tags/:tag         controllers.api.Tag.update(tag: String)
-DELETE  /api/tags/:tag         controllers.api.Tag.details(tag: String)
+GET     /api/links                  controllers.api.Link.index
+POST    /api/links                  controllers.api.Link.create
+
+# Performs embed.ly extract query on 'url'
+GET     /api/links/metadata/:url    controllers.api.Link.metadata(url: String)
+
+# Link details
+GET     /api/links/:id              controllers.api.Link.details(id: String)
+PUT     /api/links/:id              controllers.api.Link.update(id: String)
+DELETE  /api/links/:id              controllers.api.Link.delete(id: String)
+
+GET     /api/links/:id/tag          controllers.api.LinkTag.all(id: String)
+PUT     /api/links/:id/tag/:tag     controllers.api.LinkTag.add(id:String, tag: String)
+DELETE  /api/links/:id/tag/:tag     controllers.api.LinkTag.delete(id: String, tag: String)
+
+
+GET     /api/tags                   controllers.api.Tag.all
+POST    /api/tags/:tag              controllers.api.Tag.create(tag: String)
+PUT     /api/tags/:tag              controllers.api.Tag.update(tag: String)
+DELETE  /api/tags/:tag              controllers.api.Tag.details(tag: String)
 
 
 # Map static resources from the /public folder to the /assets URL path
