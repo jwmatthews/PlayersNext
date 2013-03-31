@@ -60,8 +60,8 @@ object Embedly {
     )(Thumbnail.apply _)
 
   implicit val extractReads: Reads[Extract] = (
-      (__ \ "oembed" \ "title").read[String] and
-      (__ \ "oembed" \ "description").read[String] and
+      (__ \ "title").read[String] and
+      (__ \ "description").read[String] and
       (__ \ "images").read[List[Thumbnail]] and
       (__ \ "keywords").read[List[Keyword]]
     )(Extract.apply _)

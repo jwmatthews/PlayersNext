@@ -10,7 +10,7 @@ GET     /api/links                  controllers.api.Link.index
 POST    /api/links                  controllers.api.Link.create
 
 # Performs embed.ly extract query on 'url'
-GET     /api/links/metadata/:url    controllers.api.Link.metadata(url: String)
+GET     /api/links/metadata/*url    controllers.api.Link.metadata(url: String)
 
 # Link details
 GET     /api/links/:id              controllers.api.Link.details(id: String)

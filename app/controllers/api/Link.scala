@@ -69,13 +69,18 @@ object Link extends Controller {
               Ok(Json.toJson(metadata))
             },
             invalid = { errors =>
-              BadRequest("Unable to decode JSON data for embedly extract query on: '" + url +
-                "' received errors: " + errors)
+              val msg = "Unable to decode JSON data for embedly extract query on: '" + url +
+                "' received errors: " + errors
+              Logger.error(msg)
+              Logger.error("Response was: \n" + response.body)
+              BadRequest(msg)
             }
           )
         }
         else {
-          BadRequest("Bad answer from embed.ly:" + response.statusText)
+          val msg = "Bad answer from embed.ly:" + response.statusText
+          Logger.error(msg)
+          BadRequest(msg)
         }
       }
     }
