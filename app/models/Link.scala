@@ -11,10 +11,17 @@ import play.api.libs.functional.syntax._
 case class Link(
   id: Option[ObjectId] = Some(new ObjectId),
   url: String,
-  title: String,
-  description: String,
+  title: Option[String],
+  description: Option[String],
+  thumbnail: Option[Thumbnail],
   tags: List[String]
 )
+
+case class Thumbnail(
+  url: String,
+  width: Int,
+  height: Int,
+  size: Int)
 
 case class Comment(
   msg: String,
@@ -24,6 +31,17 @@ case class Comment(
 
 
 object Links {
+
+  implicit object thumbnailWrites extends Writes[Thumbnail] {
+    def writes(t: Thumbnail) = Json.toJson(
+      Map(
+        "url" -> Json.toJson(t.url),
+        "width" -> Json.toJson(t.width),
+        "height" -> Json.toJson(t.height),
+        "size" -> Json.toJson(t.size)
+      )
+    )
+  }
   implicit object commentWrites extends Writes[models.Comment] {
     def writes(c: models.Comment) = Json.toJson(
       Map(
@@ -38,13 +56,20 @@ object Links {
       Map(
         "id"  -> Json.toJson(l.id.getOrElse("").toString),
         "url" -> Json.toJson(l.url),
-        "title" -> Json.toJson(l.title),
-        "description" -> Json.toJson(l.description),
+        "title" -> Json.toJson(l.title.getOrElse("")),
+        "description" -> Json.toJson(l.description.getOrElse("")),
         "tags" -> Json.toJson(l.tags)
         //"comments" -> Json.toJson(l.comments)
       )
     )
   }
+
+  implicit val thumbnailReads: Reads[Thumbnail] = (
+    (__ \ "url").read[String] and
+      (__ \ "width").read[Int] and
+      (__ \ "height").read[Int] and
+      (__ \ "size").read[Int]
+    )(Thumbnail.apply _)
 
   implicit val commentReads: Reads[models.Comment] = (
     (__ \ "msg").read[String] and
@@ -55,8 +80,9 @@ object Links {
   implicit val linkReads: Reads[models.Link] = (
     (__ \ "id").readNullable[ObjectId] and
       (__ \ "url").read[String] and
-      (__ \ "title").read[String] and
-      (__ \ "description").read[String] and
+      (__ \ "title").readNullable[String] and
+      (__ \ "description").readNullable[String] and
+      (__ \ "thumbnail").readNullable[Thumbnail] and
       (__ \ "tags").read[List[String]]
     )(models.Link.apply _)
 

@@ -13,6 +13,8 @@ import models._
 import models.Links.linkWrites
 import models.Links.linkReads
 
+import models.Links.thumbnailWrites
+import models.Links.thumbnailReads
 
 
 object Link extends Controller {

@@ -5,9 +5,12 @@ import play.api.libs.json._
 import play.api.libs.functional.syntax._
 import play.api.libs.ws.WS
 
+import models.Thumbnail
+import models.Links.thumbnailWrites
+import models.Links.thumbnailReads
+
 object Embedly {
   case class Keyword(score: Int, name: String)
-  case class Thumbnail(size: Int, width: Int, height: Int, url: String)
   case class Extract(title: String,
                       description: String,
                       thumbnails: List[Thumbnail],
@@ -25,16 +28,6 @@ object Embedly {
     )
   }
 
-  implicit object ThumbailWrites extends Writes[Thumbnail] {
-    def writes(t: Thumbnail) = Json.toJson(
-      Map(
-        "size"  -> Json.toJson(t.size.toString),
-        "width" -> Json.toJson(t.width.toString),
-        "height" -> Json.toJson(t.height.toString),
-        "url" -> Json.toJson(t.url)
-      )
-    )
-  }
 
   implicit object ExtractWrites extends Writes[Extract] {
     def writes(e: Extract) = Json.toJson(
@@ -52,12 +45,6 @@ object Embedly {
       (__ \ "name").read[String]
     )(Keyword.apply _)
 
-  implicit val thumbnailReads: Reads[Thumbnail] = (
-      (__ \ "size").read[Int] and
-      (__ \ "width").read[Int] and
-      (__ \ "height").read[Int] and
-      (__ \ "url").read[String]
-    )(Thumbnail.apply _)
 
   implicit val extractReads: Reads[Extract] = (
       (__ \ "title").read[String] and
