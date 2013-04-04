@@ -15,7 +15,9 @@ PN.LinkIndexView = Ember.View.extend({
   	});
     
     // TODO: Should really take care of the case if this.tags is empty
-    this.set('tags', completed_tags + this.tags.trim());
+    if (this.tags != undefined) {
+    	this.set('tags', completed_tags + this.tags.trim());
+    }
     // end hacky shit
     // =====================================================================
     if (this.formIsValid()) {
@@ -46,7 +48,10 @@ PN.LinkIndexView = Ember.View.extend({
 		var description = this.get('description');
 		var tags = this.get('tags');
 
+		/*
 		if (url === undefined || title === undefined || url.trim() === "" || title.trim() === "") {
+		*/
+		if (url === undefined || url.trim() === "") {
 	  		return false;
 		}
 		return true;
@@ -59,13 +64,13 @@ PN.LinkIndexView = Ember.View.extend({
     this.$('.myTag').remove();
  	},
  	didInsertElement: function() {
-  		this.$().embedly({key: "1f920f0a1366447ca03290b7b96670cb"});
+  		//this.$().embedly({key: "1f920f0a1366447ca03290b7b96670cb"});
   	}
 });
 
 PN.LinkDetailView = Ember.View.extend({
   elementId: 'linkDetail',
   didInsertElement: function() {
-  	this.$().embedly({key: "1f920f0a1366447ca03290b7b96670cb"});
+  	//this.$().embedly({key: "1f920f0a1366447ca03290b7b96670cb"});
   }
 });

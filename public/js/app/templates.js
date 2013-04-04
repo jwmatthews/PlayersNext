@@ -52,25 +52,90 @@ Ember.TEMPLATES['landing'] = Ember.Handlebars.compile('' +
 
 
 Ember.TEMPLATES['link/index'] = Ember.Handlebars.compile('' +
-    '{{view Ember.TextField placeholder="url" valueBinding="view.url"}}' +
-    '{{view Ember.TextField placeholder="title" valueBinding="view.title"}}' +
-    '{{view Ember.TextField placeholder="description" valueBinding="view.description"}}' +
-    '{{view PN.TagField placeholder="tags" valueBinding="view.tags" name="tagsjax"}}' +
-    '<a {{action addLink model target="view" href=true}}>Submit</a>' +
-
+    '<div class="row=fluid">' +
+        '<div class="span12">' +
+            '{{view Ember.TextField placeholder="Paste URL here to share..." valueBinding="view.url"}}' +
+        '</div>' +
+    '</div>' +
+    '<div class="row=fluid">' +
+        '<div class="span12">' +
+            '{{view Ember.TextField placeholder="Enter title here..." valueBinding="view.title"}}' +
+        '</div>' +
+    '</div>' +
+    '<div class="row=fluid">' +
+        '<div class="span12">' +
+            '{{view Ember.TextField placeholder="Enter description here..." valueBinding="view.description"}}' +
+        '</div>' +
+    '</div>' +
+    '<div class="row=fluid">' +
+        '<div class="span12">' +
+            '{{view PN.TagField placeholder="Enter keywords here..." valueBinding="view.tags" name="tagsjax"}}' +
+        '</div>' +
+    '</div>' +
+    '<div class="row=fluid">' +
+        '<div class="span12">' +
+            '<a {{action addLink model target="view" href=true}}>Submit</a>' +
+        '</div>' +
+    '</div>' +
+     '<div class="row=fluid">' +
+        '<div class="span12">' +
+            '<br />'+
+        '</div>' +
+    '</div>' +
     '{{#each content}}' +
-        '<br />{{#linkTo "link.detail" this}}{{title}}{{/linkTo}}' +
-        '<a {{bindAttr href="url" }}>{{url}} </a>' +
-        '<br />{{description}}' +
-        '<br />{{tags}}' +
+        '<div class="row=fluid">' +
+            '<div class="span12">' +
+                '<hr /> '+
+            '</div>' +
+        '</div>' +
+        '<div class="row=fluid">' +
+            '<div class="span12">' +
+                'Title: {{#linkTo "link.detail" this}}{{title}}{{/linkTo}}' +
+               '</div>' +
+            '</div>' +    
+        '<div class="row=fluid">' +
+            '<div class="span12">' +        
+                'URL: <a {{bindAttr href="url" }}>{{url}} </a>' +
+            '</div>' +
+        '</div>' +
+        '<div class="row=fluid">' +
+            '<div class="span12">' +
+                'Description: {{description}}' +
+           '</div>' +
+        '</div>' +
+        '<div class="row=fluid">' +
+            '<div class="span12">' +
+                'Tags: {{tags}}' +
+            '</div>' +
+        '</div>' +
         '<hr/>' +
     '{{/each}}'
 );
 
 Ember.TEMPLATES['link/detail'] = Ember.Handlebars.compile('' +
-    '<a {{bindAttr href="url" }}>{{url}} </a>' +
-    '<br />{{title}}' + 
-    '<br />{{description}}' + 
-    '<br />{{tags}}' + 
-    '<br />{{#linkTo "link.index"}}&lt; back{{/linkTo}}'
+    '<div class="row=fluid">' +
+        '<div class="span12">' +
+            '<a {{bindAttr href="url" }}>{{url}} </a>' +
+            '</div>' +
+        '</div>' +
+    '<div class="row=fluid">' +
+        '<div class="span12">' +
+            'Title: {{title}}' +
+        '</div>' +
+    '</div>' +
+    '<div class="row=fluid">' +
+        '<div class="span12">' +
+            'Description: {{description}}' +
+        '</div>' +
+    '</div>' +
+    '<div class="row=fluid">' +
+        '<div class="span12">' +
+            'Tags: {{tags}}' +
+        '</div>' +
+    '</div>' +
+    '<div class="row=fluid">' +
+        '<div class="span12">' +
+            '{{#linkTo "link.index"}}&lt; back{{/linkTo}}' +
+        '</div>' +
+    '</div>'
 );
