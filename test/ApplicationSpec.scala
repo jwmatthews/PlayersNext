@@ -31,7 +31,7 @@ class ApplicationSpec extends Specification {
     }
 
     "convert a Link case class to a DBObject" in {
-      val link = Link("http://example.com", "A description of a link")
+      val link = Link(url="http://example.com", description=Some("A description of a link"), title=None, thumbnail=null, tags=null)
       val dbo = grater[Link].asDBObject(link)
       dbo must not be None
     }
