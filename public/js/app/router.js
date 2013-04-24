@@ -29,3 +29,4 @@ PN.LinkDetailRoute = Ember.Route.extend({
         controller.set('content', model);
     }
 });
+

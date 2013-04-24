@@ -49,91 +49,111 @@ Ember.TEMPLATES['landing'] = Ember.Handlebars.compile('' +
     '</div>'
 );
 
-
+Ember.TEMPLATES['link/_submitEdit'] = Ember.Handlebars.compile('' +
+    '{{#if isLoading}}' +
+        '<p>Please wait while we attempt to lookup link information...' +
+        '<img src="/assets/images/ajax-loader.gif"/>' +
+    '{{else}}' +
+        '<div class="row-fluid">' +
+            '<div class="span12">' +
+                '<button id="cancelEdit" class="pull-right btn-inverse" {{action cancelEditing}}>X</button>' +
+            '</div>' +
+        '</div>' +
+        '<div class="row-fluid">' +
+            '<div class="span12">' +
+                //'{{view Ember.TextField placeholder="Paste URL for thumbnail" valueBinding="thumb_url"}}' +
+                '<img {{bindAttr src="thumb_url"}} {{bindAttr width=thumb_width}} {{bindAttr height=thumb_height}}/>' +
+            '</div>' +
+        '</div>' +
+        '<div class="row-fluid">' +
+            '<div class="span12">' +
+                '{{view Ember.TextField class="span9" placeholder="Paste URL here to share..." valueBinding="url"}}' +
+            '</div>' +
+        '</div>' +
+        '<div class="row-fluid">' +
+            '<div class="span12">' +
+                '{{view Ember.TextField placeholder="Enter title here..." valueBinding="title"}}' +
+            '</div>' +
+        '</div>' +
+        '<div class="row-fluid">' +
+            '<div class="span12">' +
+                '{{view Ember.TextArea placeholder="Enter description here..." valueBinding="description"}}' +
+            '</div>' +
+        '</div>' +
+        '<div class="row-fluid">' +
+            '<div class="span12">' +
+                '{{view PN.TagField placeholder="Enter keywords here..." valueBinding="view.tags" name="tagsjax"}}' +
+            '</div>' +
+        '</div>' +
+        '<button class="btn btn-primary" {{action submitLink}}>Submit</button>' +
+    '{{/if}}'
+);
 
 Ember.TEMPLATES['link/index'] = Ember.Handlebars.compile('' +
-    '<div class="row=fluid">' +
-        '<div class="span12">' +
-            '{{view Ember.TextField placeholder="Paste URL here to share..." valueBinding="view.url"}}' +
-        '</div>' +
+    '<div class="nav well span6">' +
+        '{{#if isEditing}}'+
+            '{{partial "link/submitEdit"}}' +
+        '{{else}}' +
+            '<p>Please paste a URL below to share a link....</p>'+
+            '{{view Ember.TextField placeholder="Paste URL here to share..." valueBinding="url" action="beginLinkSubmit"}}'+
+        '{{/if}}' +
     '</div>' +
-    '<div class="row=fluid">' +
-        '<div class="span12">' +
-            '{{view Ember.TextField placeholder="Enter title here..." valueBinding="view.title"}}' +
-        '</div>' +
-    '</div>' +
-    '<div class="row=fluid">' +
-        '<div class="span12">' +
-            '{{view Ember.TextField placeholder="Enter description here..." valueBinding="view.description"}}' +
-        '</div>' +
-    '</div>' +
-    '<div class="row=fluid">' +
-        '<div class="span12">' +
-            '{{view PN.TagField placeholder="Enter keywords here..." valueBinding="view.tags" name="tagsjax"}}' +
-        '</div>' +
-    '</div>' +
-    '<div class="row=fluid">' +
-        '<div class="span12">' +
-            '<a {{action addLink model target="view" href=true}}>Submit</a>' +
-        '</div>' +
-    '</div>' +
-     '<div class="row=fluid">' +
+    '<div class="row-fluid">' +
         '<div class="span12">' +
             '<br />'+
         '</div>' +
     '</div>' +
     '{{#each content}}' +
-        '<div class="row=fluid">' +
+        '<div class="row-fluid">' +
             '<div class="span12">' +
                 '<hr /> '+
             '</div>' +
         '</div>' +
-        '<div class="row=fluid">' +
+        '<div class="row-fluid">' +
             '<div class="span12">' +
                 'Title: {{#linkTo "link.detail" this}}{{title}}{{/linkTo}}' +
                '</div>' +
             '</div>' +    
-        '<div class="row=fluid">' +
+        '<div class="row-fluid">' +
             '<div class="span12">' +        
                 'URL: <a {{bindAttr href="url" }}>{{url}} </a>' +
             '</div>' +
         '</div>' +
-        '<div class="row=fluid">' +
+        '<div class="row-fluid">' +
             '<div class="span12">' +
                 'Description: {{description}}' +
            '</div>' +
         '</div>' +
-        '<div class="row=fluid">' +
+        '<div class="row-fluid">' +
             '<div class="span12">' +
                 'Tags: {{tags}}' +
             '</div>' +
         '</div>' +
-        '<hr/>' +
     '{{/each}}'
 );
 
 Ember.TEMPLATES['link/detail'] = Ember.Handlebars.compile('' +
-    '<div class="row=fluid">' +
+    '<div class="row-fluid">' +
         '<div class="span12">' +
             '<a {{bindAttr href="url" }}>{{url}} </a>' +
             '</div>' +
         '</div>' +
-    '<div class="row=fluid">' +
+    '<div class="row-fluid">' +
         '<div class="span12">' +
             'Title: {{title}}' +
         '</div>' +
     '</div>' +
-    '<div class="row=fluid">' +
+    '<div class="row-fluid">' +
         '<div class="span12">' +
             'Description: {{description}}' +
         '</div>' +
     '</div>' +
-    '<div class="row=fluid">' +
+    '<div class="row-fluid">' +
         '<div class="span12">' +
             'Tags: {{tags}}' +
         '</div>' +
     '</div>' +
-    '<div class="row=fluid">' +
+    '<div class="row-fluid">' +
         '<div class="span12">' +
             '{{#linkTo "link.index"}}&lt; back{{/linkTo}}' +
         '</div>' +
