@@ -6,6 +6,8 @@ PN.LinkIndexController = Ember.ArrayController.extend({
 	url: "",
 	title: "",
 	description: "",
+	thumnails: [],
+	selected_thumbnail_index: 0,
 	thumb_url: "",
 	thumb_width: "",
 	thumb_height: "",
@@ -26,11 +28,8 @@ PN.LinkIndexController = Ember.ArrayController.extend({
   			console.log("Looked up URL: <" + contr.get('url') + "> found data: " + JSON.stringify(data));
   			contr.set('title', data.title);
   			contr.set('description', data.description);
-  			var thumb = data.thumbnails[0]
-  			contr.set('thumb_url', thumb.url);
-  			contr.set('thumb_width', thumb.width);
-  			contr.set('thumb_height', thumb.height);
-  			contr.set('thumb_size', thumb.size);
+  			contr.set('thumbnails', data.thumbnails);
+  			contr.updateThumbnail();
   			contr.set('isLoading', false);
   		}).fail(function() {
   			contr.set('isLoading', false);
@@ -58,6 +57,33 @@ PN.LinkIndexController = Ember.ArrayController.extend({
   	},
   	doneEditing: function() {
   		this.set('isEditing', false);
+  	},
+  	updateThumbnail: function() {
+  		var thumb = this.thumbnails[this.selected_thumbnail_index]
+  		this.set('thumb_url', thumb.url);
+  		this.set('thumb_width', thumb.width);
+  		this.set('thumb_height', thumb.height);
+  		this.set('thumb_size', thumb.size);
+  	},
+  	prevThumbnail: function() {
+  		if (this.thumbnails) {
+  			if (this.selected_thumbnail_index == 0) {
+  				this.set('selected_thumbnail_index',  this.thumbnails.length - 1);
+  			} else {
+  				this.set('selected_thumbnail_index', this.selected_thumbnail_index - 1);
+  			}
+  			this.updateThumbnail();
+  		}
+  	},
+  	nextThumbnail: function() {
+  		if (this.thumbnails) {
+  			if (this.selected_thumbnail_index == this.thumbnails.length - 1) {
+  				this.set('selected_thumbnail_index', 0);
+  			} else {
+  				this.set('selected_thumbnail_index',  this.selected_thumbnail_index + 1);
+  			}
+  			this.updateThumbnail();
+  		}
   	},
   	addLink: function(event) {
 	    // =====================================================================

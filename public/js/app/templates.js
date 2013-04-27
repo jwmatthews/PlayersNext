@@ -59,12 +59,28 @@ Ember.TEMPLATES['link/_submitEdit'] = Ember.Handlebars.compile('' +
                 '<button id="cancelEdit" class="pull-right btn-inverse" {{action cancelEditing}}>X</button>' +
             '</div>' +
         '</div>' +
+        // Thumbnail
         '<div class="row-fluid">' +
             '<div class="span12">' +
-                //'{{view Ember.TextField placeholder="Paste URL for thumbnail" valueBinding="thumb_url"}}' +
                 '<img {{bindAttr src="thumb_url"}} {{bindAttr width=thumb_width}} {{bindAttr height=thumb_height}}/>' +
             '</div>' +
         '</div>' +
+        '<div class="row-fluid">' +
+            '<div class="span2">' +
+                '<p>{{ selected_thumbnail_index }}/{{ thumbnails.length }}</p>' +
+            '</div>' +
+        '</div>' +
+        // Render select URL for thumnail
+        '<div class="row-fluid">' +
+            '<div class="span1 pull-left">' +
+                '<button class="btn btn-mini" {{action prevThumbnail}}>\<</button>' +
+            '</div>' +      
+            '{{view Ember.TextField class="span10" placeholder="Paste URL for thumbnail" valueBinding="thumb_url"}}' +
+            '<div class="span1 pull-right">' +
+                '<button class="btn btn-mini" {{action nextThumbnail}}>\></button>' +
+            '</div>' +
+        '</div>' +
+        // End Thumbnail
         '<div class="row-fluid">' +
             '<div class="span12">' +
                 '{{view Ember.TextField class="span9" placeholder="Paste URL here to share..." valueBinding="url"}}' +
@@ -123,6 +139,11 @@ Ember.TEMPLATES['link/index'] = Ember.Handlebars.compile('' +
             '<div class="span12">' +
                 'Description: {{description}}' +
            '</div>' +
+        '</div>' +
+        '<div class="row-fluid">' +
+            '<div class="span12">' +
+                'Thumbnail: url={{thumbnail_url}}, thumbnail_width={{thumbnail_width}}, thumbnail_height={{thumbnail_height}}, thumbnail_size={{thumbnail_size}}' +
+            '</div>' +
         '</div>' +
         '<div class="row-fluid">' +
             '<div class="span12">' +

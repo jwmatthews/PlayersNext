@@ -27,6 +27,15 @@ DS.RESTAdapter.registerTransform('array', {
   }
 });
 
+DS.RESTAdapter.registerTransform('dict', {
+	serialize: function(value) {
+		return value
+	},
+	deserialize: function(value) {
+		return value
+	}
+});
+
 PN.TagField = Ember.TextField.extend({
   classNames: ['linksTagManager'],
   attributeBindings: ['name'],
