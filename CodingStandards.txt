@@ -1,0 +1,4 @@
+Coding Standards
+
+Use spaces and not tabs
+ HTML/Javascript/CSS: 2 spaces per indent

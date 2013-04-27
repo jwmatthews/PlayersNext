@@ -31,3 +31,15 @@ Build/Run PlayersNext from github
 To access ember.js work in progress point browser to:
 http://127.0.0.1:9000/assets/index.html
 
+
+
+Note on HTML Templates
+---------------------------------
+Two types of HTML templates exist
+ - Server side HTML templates rendered by Play Webframework
+ - Javascript HTML templates rendered by Handlebars as part of Ember.js
+
+We have a generic main.scala.html server side template which loads the needed javascript files and does nothing else.
+All HTML for the webui is rendered client side by Handlebars.
+Look in the app/assets/templates to see the client side handlebar templates.
+

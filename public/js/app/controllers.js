@@ -18,6 +18,10 @@ PN.LinkIndexController = Ember.ArrayController.extend({
   		this.set('title', "");
   		this.set('description', "");
   		this.set('tags', []);
+  		this.set('thumb_url', "");
+  		this.set('thumb_width', "");
+  		this.set('thumb_height', "");
+  		this.set('thumb_size', "");
   		//this.$('.myTag').remove();
   	},
   	beginLinkSubmit: function() {
@@ -60,10 +64,17 @@ PN.LinkIndexController = Ember.ArrayController.extend({
   	},
   	updateThumbnail: function() {
   		var thumb = this.thumbnails[this.selected_thumbnail_index]
-  		this.set('thumb_url', thumb.url);
-  		this.set('thumb_width', thumb.width);
-  		this.set('thumb_height', thumb.height);
-  		this.set('thumb_size', thumb.size);
+  		if (thumb) {
+  			this.set('thumb_url', thumb.url);
+  			this.set('thumb_width', thumb.width);
+  			this.set('thumb_height', thumb.height);
+  			this.set('thumb_size', thumb.size);
+  		} else {
+  			this.set('thumb_url', "");
+  			this.set('thumb_width', "");
+  			this.set('thumb_height', "");
+  			this.set('thumb_size', "");
+  		}
   	},
   	prevThumbnail: function() {
   		if (this.thumbnails) {
