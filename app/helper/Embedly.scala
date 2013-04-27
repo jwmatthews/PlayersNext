@@ -11,8 +11,8 @@ import models.Links.thumbnailReads
 
 object Embedly {
   case class Keyword(score: Int, name: String)
-  case class Extract(title: String,
-                      description: String,
+  case class Extract(title: Option[String],
+                      description: Option[String],
                       thumbnails: List[Thumbnail],
                       keywords: List[Keyword])
 
@@ -32,8 +32,8 @@ object Embedly {
   implicit object ExtractWrites extends Writes[Extract] {
     def writes(e: Extract) = Json.toJson(
       Map(
-        "title"  -> Json.toJson(e.title),
-        "description" -> Json.toJson(e.description),
+        "title"  -> Json.toJson(e.title.getOrElse("")),
+        "description" -> Json.toJson(e.description.getOrElse("")),
         "thumbnails" -> Json.toJson(e.thumbnails),
         "keywords" -> Json.toJson(e.keywords)
       )
@@ -47,8 +47,8 @@ object Embedly {
 
 
   implicit val extractReads: Reads[Extract] = (
-      (__ \ "title").read[String] and
-      (__ \ "description").read[String] and
+      (__ \ "title").readNullable[String] and
+      (__ \ "description").readNullable[String] and
       (__ \ "images").read[List[Thumbnail]] and
       (__ \ "keywords").read[List[Keyword]]
     )(Extract.apply _)
