@@ -6,6 +6,7 @@ import mongoHelper._
 import play.api.libs.json._
 import com.mongodb.casbah.commons.TypeImports.ObjectId
 import play.api.libs.functional.syntax._
+import play.Logger
 
 
 case class Link(
@@ -58,7 +59,8 @@ object Links {
         "url" -> Json.toJson(l.url),
         "title" -> Json.toJson(l.title.getOrElse("")),
         "description" -> Json.toJson(l.description.getOrElse("")),
-        "tags" -> Json.toJson(l.tags)
+        "tags" -> Json.toJson(l.tags),
+        "thumbnail" -> Json.toJson(l.thumbnail)
         //"comments" -> Json.toJson(l.comments)
       )
     )
@@ -97,6 +99,7 @@ object Links {
   }
 
   def create(link: Link) {
+    Logger.info("Attempting to save to DB: " + link)
     links += grater[Link].asDBObject(link)
     link.tags.map(t => Tags.increment(t))
   }

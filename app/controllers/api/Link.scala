@@ -36,9 +36,9 @@ object Link extends Controller {
         Ok(Json.toJson(true))
       },
       invalid = { errors =>
-        BadRequest("Unable to create Link with data: " + request.body +
-          ", yielded errors" + errors)
-
+        val msg = "Unable to create Link with data: " + request.body + ", yielded errors" + errors
+        Logger.error(msg)
+        BadRequest(msg)
       }
     )
   }
@@ -66,6 +66,7 @@ object Link extends Controller {
       val responsePromise = Embedly.lookup(url)
       responsePromise.map { response =>
         if (response.status == 200) {
+          Logger.info("Received response from lookup on: " + url + "\nBody: " + response.body)
           Embedly.extractReads.reads(Json.parse(response.body)).fold(
             valid = { metadata =>
               Ok(Json.toJson(metadata))

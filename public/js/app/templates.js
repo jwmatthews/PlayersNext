@@ -126,28 +126,11 @@ Ember.TEMPLATES['link/index'] = Ember.Handlebars.compile('' +
             '</div>' +
         '</div>' +
         '<div class="row-fluid">' +
-            '<div class="span12">' +
-                'Title: {{#linkTo "link.detail" this}}{{title}}{{/linkTo}}' +
-               '</div>' +
-            '</div>' +    
-        '<div class="row-fluid">' +
-            '<div class="span12">' +        
-                'URL: <a {{bindAttr href="url" }}>{{url}} </a>' +
-            '</div>' +
-        '</div>' +
-        '<div class="row-fluid">' +
-            '<div class="span12">' +
-                'Description: {{description}}' +
-           '</div>' +
-        '</div>' +
-        '<div class="row-fluid">' +
-            '<div class="span12">' +
-                'Thumbnail: url={{thumbnail_url}}, thumbnail_width={{thumbnail_width}}, thumbnail_height={{thumbnail_height}}, thumbnail_size={{thumbnail_size}}' +
-            '</div>' +
-        '</div>' +
-        '<div class="row-fluid">' +
-            '<div class="span12">' +
-                'Tags: {{tags}}' +
+                '<img {{bindAttr src="thumbnail.url"}} {{bindAttr width=thumbnail.width}} {{bindAttr height=thumbnail.height}}/>' +
+                '<p>Title: {{#linkTo "link.detail" this}}{{title}}{{/linkTo}}</p>' +
+                '<p>URL: <a {{bindAttr href="url" }}>{{url}} </a></p>' +
+                '<p>Description: {{description}}</p>' +
+                '<p>Tags: {{tags}}</p>' +
             '</div>' +
         '</div>' +
     '{{/each}}'

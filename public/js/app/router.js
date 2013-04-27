@@ -25,7 +25,7 @@ PN.LinkIndexRoute = Ember.Route.extend({
 
 PN.LinkDetailRoute = Ember.Route.extend({
     setupController: function(controller, model) {
-        console.log('PN.LinkDetailRoute setupControllers');
+        console.log('PN.LinkDetailRoute setupControllers: model = ' + model.thumbnail);
         controller.set('content', model);
     }
 });

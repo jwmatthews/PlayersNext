@@ -115,12 +115,17 @@ PN.LinkIndexController = Ember.ArrayController.extend({
 	    var title = this.get('title');
 	    var description = this.get('description');
 	    var tags = this.get('tags');
-
+	    var thumbnail = {}
+	    thumbnail.url = this.get('thumb_url');
+	    thumbnail.width = this.get('thumb_width');
+	    thumbnail.height = this.get('thumb_height');
+	    thumbnail.size = this.get('thumb_size');
 	    return PN.Link.createRecord(
 	    	{ 	url: url,
 	      		title: title,
 	      		description: description,
-	      		tags: tags
+	      		tags: tags,
+	      		thumbnail: thumbnail
 	    });
  	},
  	formIsValid: function() {
