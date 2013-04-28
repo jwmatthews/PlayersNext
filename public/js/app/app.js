@@ -48,7 +48,8 @@ PN.TagField = Ember.TextField.extend({
       //AjaxPush: '/api/tags',
       blinkBGColor_1: '#FFFF9C',
       blinkBGColor_2: '#CDE69C',
-      hiddenTagListName: 'tags'
+      //hiddenTagListName: 'tags'
+      hiddenTagListName: 'link_submit_tags'
     });
   }
 });

@@ -1,28 +1,33 @@
 PN.ApplicationController = Ember.Controller.extend({});
 
 PN.LinkIndexController = Ember.ArrayController.extend({
-	isLoading: false,
-	isEditing: false,
+	//
+	// States
+	//
+	isLoading: false, // set when we are waiting for link metadata to be returned from backend
+	isEditing: false, // set this when we are editing fields prior to submission
+	//
+	// Values representing a link a user is in the process of editing, prior to submission
+	//
 	url: "",
 	title: "",
 	description: "",
-	thumnails: [],
+	thumbnails: [],
 	selected_thumbnail_index: 0,
 	thumb_url: "",
-	thumb_width: "",
-	thumb_height: "",
-	thumb_size: "",
-	tags: [],
+	thumb_width: 0,
+	thumb_height: 0,
+	thumb_size: 0,
   	clearLinkSubmission: function() {
   		this.set('url', "");
   		this.set('title', "");
   		this.set('description', "");
-  		this.set('tags', []);
+  		this.set('thumbnails', []);
+  		this.set('selected_thumbnail_index', 0);
   		this.set('thumb_url', "");
   		this.set('thumb_width', "");
   		this.set('thumb_height', "");
   		this.set('thumb_size', "");
-  		//this.$('.myTag').remove();
   	},
   	beginLinkSubmit: function() {
   		this.startEditing();
@@ -42,7 +47,6 @@ PN.LinkIndexController = Ember.ArrayController.extend({
   	submitLink: function() {
   		if (this.formIsValid()) {
 	     	var link = this.buildLinkFromInputs();
-	     	//TODO:  Need to take care of 'keywords'/'tags'
 	      	this.get('store').commit();
 	      	this.clearLinkSubmission();
 	    } else {
@@ -71,9 +75,9 @@ PN.LinkIndexController = Ember.ArrayController.extend({
   			this.set('thumb_size', thumb.size);
   		} else {
   			this.set('thumb_url', "");
-  			this.set('thumb_width', "");
-  			this.set('thumb_height', "");
-  			this.set('thumb_size', "");
+  			this.set('thumb_width', 0);
+  			this.set('thumb_height', 0);
+  			this.set('thumb_size', 0);
   		}
   	},
   	prevThumbnail: function() {
@@ -96,36 +100,22 @@ PN.LinkIndexController = Ember.ArrayController.extend({
   			this.updateThumbnail();
   		}
   	},
-  	addLink: function(event) {
-	    // =====================================================================
-	    // this is really hacky!
-	    // there has to be a better/cleaner way to get the autocompleted tag and 
-	    // append the information to this.tag
-	  	var completed_tags = '';
-	  	this.$('.myTag').each(function() {
-	  		completed_tags += $(this).children('span').text().trim() + ',';
-	  	});
-	    
-	    // TODO: Should really take care of the case if this.tags is empty
-	    if (this.tags != undefined) {
-	    	this.set('tags', completed_tags + this.tags.trim());
-	    }
-	    // end hacky shit
-	    // =====================================================================
-	    if (this.formIsValid()) {
-	      var link = this.buildLinkFromInputs(event);
-	      this.get('controller').addLink(link);
-	      this.resetForm();
-	    } else {
-	    	console.log("Invalid data");
-	    	this.resetForm();
-	    }
-	},
 	buildLinkFromInputs: function() {
 	    var url = this.get('url');
 	    var title = this.get('title');
 	    var description = this.get('description');
-	    var tags = this.get('tags');
+	    //
+	    //  tagManager stores the entered 'tags' in a hidden <input> field
+	    //  value may be overidden by tagManager config with attribute: 'hiddenTagListName'
+  		//
+  		var tags = [];
+	    var tag_data = $('input[name="link_submit_tags"]').val();
+  		if (tag_data) {
+  			var temp_tags = tag_data.split(",");
+			for (var i = 0; i < temp_tags.length; i++) {
+				tags[i] = temp_tags[i].trim();  
+			}
+	    }
 	    var thumbnail = {}
 	    thumbnail.url = this.get('thumb_url');
 	    thumbnail.width = this.get('thumb_width');
@@ -140,14 +130,15 @@ PN.LinkIndexController = Ember.ArrayController.extend({
 	    });
  	},
  	formIsValid: function() {
+ 		// TODO:
+ 		//   We need to display errors back to user so they can correct them
 		var url = this.get('url');
 		var title = this.get('title');
 		var description = this.get('description');
-		var tags = this.get('tags');
-
 		if (url === undefined || url.trim() === "") {
 	  		return false;
 		}
+
 		return true;
   	}
 });
