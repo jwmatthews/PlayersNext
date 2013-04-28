@@ -41,6 +41,9 @@ PN.LinkIndexController = Ember.ArrayController.extend({
   			contr.set('description', data.description);
   			contr.set('thumbnails', data.thumbnails);
   			contr.updateThumbnail();
+  			if (data.keywords && data.keywords.length > 0) {
+  				contr.set('tag', data.keywords[0].name);
+  			}
   			contr.set('isLoading', false);
   		}).fail(function() {
   			contr.set('isLoading', false);
