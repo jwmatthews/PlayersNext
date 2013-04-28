@@ -18,6 +18,7 @@ PN.LinkIndexController = Ember.ArrayController.extend({
 	thumb_width: 0,
 	thumb_height: 0,
 	thumb_size: 0,
+	tag: "",
   	clearLinkSubmission: function() {
   		this.set('url', "");
   		this.set('title', "");
@@ -28,6 +29,7 @@ PN.LinkIndexController = Ember.ArrayController.extend({
   		this.set('thumb_width', "");
   		this.set('thumb_height', "");
   		this.set('thumb_size', "");
+  		this.set('tag', "");
   	},
   	beginLinkSubmit: function() {
   		this.startEditing();
@@ -115,6 +117,10 @@ PN.LinkIndexController = Ember.ArrayController.extend({
 			for (var i = 0; i < temp_tags.length; i++) {
 				tags[i] = temp_tags[i].trim();  
 			}
+	    }
+	    var current_tag = this.get('tag').trim();
+	    if (current_tag) {
+	    	tags.push(current_tag);
 	    }
 	    var thumbnail = {}
 	    thumbnail.url = this.get('thumb_url');
