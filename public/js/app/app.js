@@ -53,3 +53,9 @@ PN.TagField = Ember.TextField.extend({
     });
   }
 });
+
+
+Handlebars.registerHelper('increment', function(item, options) {
+  var next_num = item + 1;
+  return next_num
+});

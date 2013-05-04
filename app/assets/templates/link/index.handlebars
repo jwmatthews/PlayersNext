@@ -17,12 +17,5 @@
       <hr /> 
     </div>
   </div>
-  <div class="row-fluid">
-    <img {{bindAttr src="thumbnail.url"}} {{bindAttr width=thumbnail.width}} {{bindAttr height=thumbnail.height}}/>
-    <p>Title: {{#linkTo "link.detail" this}}{{title}}{{/linkTo}}</p>
-    <p>URL: <a {{bindAttr href="url" }}>{{url}} </a></p>
-    <p>Description: {{description}}</p>
-    <p>Tags: {{tags}}</p>
-  </div>
-</div>
+  {{partial "link/link_details"}}
 {{/each}}

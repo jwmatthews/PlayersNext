@@ -1,0 +1,11 @@
+<div class="row-fluid">
+    <div class="span4">
+      <img {{bindAttr src="thumbnail.url"}} width="200" height="200" />
+    </div>
+    <div class="span8">
+      <p><strong>Title:</strong> {{#linkTo "link.detail" this}}{{title}}{{/linkTo}}</p>
+      <p><strong>URL:</strong> <a {{bindAttr href="url" }}>{{url}} </a></p>
+      <p><strong>Description:</strong> {{description}}</p>
+      <p><strong>Tags:</strong> {{tags}}</p>
+    </div>
+</div>
