@@ -54,8 +54,16 @@ PN.TagField = Ember.TextField.extend({
   }
 });
 
-
-Handlebars.registerHelper('increment', function(item, options) {
+Ember.Handlebars.registerBoundHelper('increment', function(item, options) {
   var next_num = item + 1;
   return next_num
+});
+
+Ember.Handlebars.registerBoundHelper('truncate_60', function(item, options) {
+	var length = 60;
+	var out = item;
+	if(out.length > length) {
+    	out = out.substring(0,length)+"...";
+    }
+    return out
 });
