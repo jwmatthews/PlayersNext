@@ -1,6 +1,9 @@
 body {
   padding-top: 20px;
   padding-bottom: 60px;
+  font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color:#777;
+  /*font-weight:300;*/
 }
 
 /* Custom container */
@@ -74,4 +77,23 @@ body {
   color: #FFFFFF;
   font-size: 13px;
   line-height: 18px;
+}
+
+.ember-list-view {
+  overflow: auto;
+  position: relative;
+}
+.ember-list-item-view {
+  position: absolute;
+}
+
+
+.index_right {
+  margin-left: 15px;
+}
+
+.index_item {
+  border: 1px;
+   border-left: 10px solid #900;
+    border-right: 10px solid #900; 
 }

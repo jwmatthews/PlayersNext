@@ -20,7 +20,7 @@ import models.Links.thumbnailReads
 object Link extends Controller {
 
   def index = Action{ implicit request =>
-    Logger.info("index() invoked with request.body = \n%s\n".format(request.body))
+    Logger.info("index() invoked with request.paramters = <%s>, request.body = \n%s\n".format(request.queryString, request.body))
     val links = Links.all
     val data = Map("links" -> links)
     Ok(Json.toJson(data))
