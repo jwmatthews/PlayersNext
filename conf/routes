@@ -6,7 +6,7 @@
 GET     /                           controllers.Landing.index
 
 
-GET     /api/links                  controllers.api.Link.index
+GET     /api/links                  controllers.api.Link.index(tags: Option[String])
 POST    /api/links                  controllers.api.Link.create
 
 # Performs embed.ly extract query on 'url'

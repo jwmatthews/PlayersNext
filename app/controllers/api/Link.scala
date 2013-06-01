@@ -19,11 +19,16 @@ import models.Links.thumbnailReads
 
 object Link extends Controller {
 
-  def index = Action{ implicit request =>
+  def index(tags: Option[String]) = Action{ implicit request =>
     Logger.info("index() invoked with request.body = \n%s\n".format(request.body))
+
     val links = Links.all
     val data = Map("links" -> links)
-    Ok(Json.toJson(data))
+    
+    tags match {
+      case None => Ok(Json.toJson(data))
+      case Some(x) => BadRequest("NOT IMPLEMENTED")
+    }
   }
 
   def create() = Action(parse.json) { request =>
