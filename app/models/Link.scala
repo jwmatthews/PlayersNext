@@ -108,6 +108,11 @@ object Links {
     val o : DBObject = MongoDBObject("_id" -> new ObjectId(id))
     links.findOne(o).map(grater[Link].asObject(_))
   }
+  
+  def findByTag(id: String): List[models.Link] = {
+    val q : DBObject = MongoDBObject("tags" -> id)
+    links.find(q).map(grater[Link].asObject(_)).toList
+  }
 
   def delete(link: Link) {
     links -= grater[Link].asDBObject(link)

@@ -21,13 +21,9 @@ object Link extends Controller {
 
   def index(tags: Option[String]) = Action{ implicit request =>
     Logger.info("index() invoked with request.body = \n%s\n".format(request.body))
-
-    val links = Links.all
-    val data = Map("links" -> links)
-    
     tags match {
-      case None => Ok(Json.toJson(data))
-      case Some(x) => BadRequest("NOT IMPLEMENTED")
+      case None => Ok(Json.toJson(Map("links" -> Links.all)))
+      case Some(x) => Ok(Json.toJson(Map("links" -> Links.findByTag(x))))
     }
   }
 
